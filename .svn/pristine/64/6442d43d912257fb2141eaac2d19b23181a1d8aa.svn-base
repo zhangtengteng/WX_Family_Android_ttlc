@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/common_gray_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/wx_common_title" />
+
+    <com.xweisoft.wx.family.widget.HorizontalListView
+        android:id="@+id/choose_children_horizontal_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/choose_children_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="40dp"
+        android:background="@color/green_54D092_color"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="@color/white_color"
+        android:textSize="16sp" />
+
+</LinearLayout>

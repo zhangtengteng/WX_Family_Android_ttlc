@@ -1,0 +1,201 @@
+package com.xweisoft.wx.family.ui.pc;
+
+import java.io.Serializable;
+import java.util.Map;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.WXApplication;
+import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+import com.xweisoft.wx.family.logic.model.ChildrenItem;
+import com.xweisoft.wx.family.logic.model.ContactItem;
+import com.xweisoft.wx.family.logic.model.UserItem;
+import com.xweisoft.wx.family.logic.model.response.ContactAddResp;
+import com.xweisoft.wx.family.service.database.ContactsDBHelper;
+import com.xweisoft.wx.family.ui.BaseActivity;
+import com.xweisoft.wx.family.ui.message.ChatMessageActivity;
+import com.xweisoft.wx.family.util.CommonTitleUtil;
+import com.xweisoft.wx.family.util.HttpRequestUtil;
+import com.xweisoft.wx.family.util.LoginUtil;
+import com.xweisoft.wx.family.util.ProgressUtil;
+import com.xweisoft.wx.family.util.Util;
+import com.xweisoft.wx.family.widget.CommonDialog;
+import com.xweisoft.wx.family.widget.CommonDialog.OnButtonClickListener;
+import com.xweisoft.wx.family.widget.NetHandler;
+
+/**
+ * 修改头像
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-12]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class UpdateIconActivity extends BaseActivity implements OnClickListener
+{
+    
+    /**
+     * 个人对象
+     */
+    
+    /**
+     * 头像
+     */
+    private ImageView mHeaderImage;
+    
+    /**
+     * 名称
+     */
+    private TextView mNameText;
+    
+    /**
+     * 电话
+     */
+    private TextView mPhoneText;
+    
+    /**
+     * 班级
+     */
+    private TextView mClassText;
+    
+    private LinearLayout lyJiaoshe;
+    
+    /**
+     * 角色
+     */
+    private TextView mJiaoshe;
+    
+    /**
+     * 性别
+     */
+    private TextView mSexText;
+    
+    /**
+     * 发短信
+     */
+    private View mSmsView;
+    
+    /**
+     * 打电话
+     */
+    private View mCallView;
+    
+    /**
+     * 聊天
+     */
+    private View mChatView;
+    
+    /**
+     * 添加
+     */
+    private View mAddView;
+    
+    private ChildrenItem item1;
+    
+    private UserItem item;
+    
+    /**
+     * 加为(取消)好友
+     */
+    private TextView mAddText;
+    
+    /**
+     * 通讯录数据库帮助类
+     */
+    private ContactsDBHelper mDbHelper;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(getActivityLayout());
+        Intent in = getIntent();
+        item1 = WXApplication.getInstance().loginUserItem.selectedItem;
+        item = WXApplication.getInstance().loginUserItem;
+        
+        initViews();
+        bindListener();
+    }
+    
+    @Override
+    public void initViews()
+    {
+        
+        CommonTitleUtil.initCommonTitle(this,
+                getResources().getString(R.string.ysh_personalzl),
+                null,
+                true,
+                true);
+        
+        mNameText = (TextView) findViewById(R.id.contact_info_name);
+        mPhoneText = (TextView) findViewById(R.id.contact_info_phone);
+        mSexText = (TextView) findViewById(R.id.contact_info_sex);
+        mClassText = (TextView) findViewById(R.id.contact_info_class);
+        mJiaoshe = (TextView) findViewById(R.id.contact_info_jiaoshes);
+        lyJiaoshe = (LinearLayout) findViewById(R.id.ly_jiaoshe);
+        
+        mNameText.setText(item1.studentName);
+        mPhoneText.setText(item.phone);  
+        mClassText.setText(item1.classinfoName);
+        if (item.appellation == null)
+        {
+            lyJiaoshe.setVisibility(View.GONE);
+        }
+        else
+        {
+            mJiaoshe.setText(item.appellation);
+        }
+        if (item1.sex.equals("1"))
+        {
+            mSexText.setText("男");
+        }
+        else
+        {
+            mSexText.setText("女");
+            
+        }
+        
+    }
+    
+    @Override
+    public void bindListener()
+    {
+    }
+    
+    @Override
+    public int getActivityLayout()
+    {
+        return R.layout.wx_person_info_activity;
+    }
+    
+    /**
+     * 获取传递数据
+     * <一句话功能简述>
+     * <功能详细描述> [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    
+    @Override
+    public void onClick(View v)
+    {
+        
+    }
+    
+}

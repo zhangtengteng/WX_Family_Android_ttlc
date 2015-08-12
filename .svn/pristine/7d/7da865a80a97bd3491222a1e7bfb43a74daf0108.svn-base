@@ -1,0 +1,522 @@
+package com.xweisoft.wx.family.ui.grade;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+import com.xweisoft.wx.family.logic.model.ExamItem;
+import com.xweisoft.wx.family.logic.model.HistoryScoreItem;
+import com.xweisoft.wx.family.logic.model.HistroyExamItem;
+import com.xweisoft.wx.family.logic.model.SubjectItem;
+import com.xweisoft.wx.family.logic.model.response.HistoryExamResp;
+import com.xweisoft.wx.family.logic.model.response.HistoryTopListResp;
+import com.xweisoft.wx.family.util.HttpRequestUtil;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.util.ScreenUtils;
+import com.xweisoft.wx.family.widget.NetHandler;
+
+public class HistoryCommentScoreActicvity extends Activity
+
+{
+    
+    private String schoolYea1;
+    
+    ListView lv;
+    
+    /**
+     * 成绩集合
+     * */
+    ArrayList<HistroyExamItem> histroyscorelist = new ArrayList<HistroyExamItem>();
+    
+    /**
+     * 科目集合
+     * */
+    
+    ArrayList<HistoryScoreItem> subjectlist = new ArrayList<HistoryScoreItem>();
+    
+    ImageView back;
+    
+    TextView title;
+    
+    myAdapter m = new myAdapter();
+    
+    /**
+     * 显示科目的滑动控件
+     * */
+    
+    LinearLayout subjecthLinearLyout;
+    
+    /**
+     * 显示科目的滑动控件里面的布局
+     * */
+    HorizontalScrollView subjecthsc;
+    
+    int i = 0;
+    
+    //成绩
+    private Handler handlerscore = new NetHandler(false)
+    {
+        
+        @Override
+        public void onSuccess(String errMsg, Message msg)
+        {
+            
+            HistoryExamResp req = null;
+            if (null != msg.obj && msg.obj instanceof HistoryExamResp)
+            {
+                req = (HistoryExamResp) msg.obj;
+                if (!ListUtil.isEmpty(req.examSubjectScores))
+                {
+                    histroyscorelist.clear();
+                    histroyscorelist.addAll(req.examSubjectScores);
+                    m.setList(histroyscorelist);
+                    
+                }
+                
+            }
+        }
+        
+        @Override
+        public void onFailed(String errCode, String errMsg, Message msg)
+        {
+            showToast(errMsg);
+            
+        }
+    };
+    
+    private Handler handler = new NetHandler(false)
+    {
+        
+        @Override
+        public void onSuccess(String errMsg, Message msg)
+        {
+            HistoryTopListResp resp = null;
+            if (null != msg.obj && msg.obj instanceof HistoryTopListResp)
+            {
+                resp = (HistoryTopListResp) msg.obj;
+                if (!ListUtil.isEmpty(resp.historyScoreItemsList))
+                {
+                    subjectlist.clear();
+                    //  subs.addAll(resp.historyScoreItemsList);
+                    subjectlist.addAll(resp.historyScoreItemsList);
+                    
+                    if (subjectlist.size() > 0)
+                    {
+                        
+                        subjecthLinearLyout.removeAllViews();
+                        for (int i = 0; i < subjectlist.size(); i++)
+                        {
+                            View convertView = getLayoutInflater().inflate(R.layout.textview2,
+                                    null);
+                            TextView tv = (TextView) convertView.findViewById(R.id.tv_subname);
+                            tv.setText(subjectlist.get(i).subjectName);
+                            tv.setId(i);
+                            tv.setOnClickListener(new OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    if (j == v.getId())
+                                    {
+                                        j = -1;
+                                    }
+                                    else
+                                    {
+                                        j = v.getId();
+                                    }
+                                    m.notifyDataSetChanged();
+                                    setColor();
+                                }
+                            });
+                            subjecthLinearLyout.addView(convertView);
+                        }
+                        setColor();
+                        
+                    }
+                    else
+                    {
+                        
+                        Log.d(errMsg, "科目为空！！！！");
+                    }
+                }
+            }
+        }
+        
+        @Override
+        public void onFailed(String errCode, String errMsg, Message msg)
+        {
+            showToast(errMsg);
+            
+        }
+    };
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.hirstory_score_list);
+        back = (ImageView) findViewById(R.id.common_left_back_imageview);//common_left_back_imageview
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View arg0)
+            {
+                onBackPressed();
+                
+            }
+        });
+        title = (TextView) findViewById(R.id.common_title_center_text);
+        title.setText("历史成绩");
+        lv = (ListView) findViewById(R.id.listview);
+        Intent intent = getIntent();
+        schoolYea1 = intent.getStringExtra("schoolYear1");
+        sendRequest();
+        sendReusetScore();
+        
+        //  kcbs = Kcb.geArrayList();  
+        subjecthsc = (HorizontalScrollView) findViewById(R.id.subjectsc);
+        subjecthLinearLyout = (LinearLayout) findViewById(R.id.subjectlineyout);
+        
+        lv.setAdapter(m);
+        
+        subjecthsc.setOnTouchListener(new OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        return true;
+                }
+                return true;
+            }
+        });
+        
+        findViewById(R.id.left).setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (i > 1)
+                {
+                    return;
+                }
+                i++;
+                subjecthLinearLyout.scrollTo(ScreenUtils.dip2px(getApplicationContext(),
+                        58)
+                        * i,
+                        0);
+                m.notifyDataSetChanged();
+            }
+        });
+        
+        findViewById(R.id.right).setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (i == 0)
+                {
+                    return;
+                }
+                i--;
+                subjecthLinearLyout.scrollTo(ScreenUtils.dip2px(getApplicationContext(),
+                        58)
+                        * i,
+                        0);
+                m.notifyDataSetChanged();
+            }
+        });
+        
+    }
+    
+    //发送请求科目
+    public void sendRequest()
+    {
+        Map<String, String> param = HttpRequestUtil.getCommonParams("schoolSubjects");
+        HttpRequestUtil.sendHttpPostCommonRequest(HistoryCommentScoreActicvity.this,
+                HttpAddressProperties.SERVICE_URL,
+                param,
+                HistoryTopListResp.class,
+                handler);
+    }
+    
+    //发送请求科目成绩
+    public void sendReusetScore()
+    {
+        Map<String, String> param = HttpRequestUtil.getCommonParams("subjectHistoryScore");
+        param.put("schoolYear", schoolYea1);
+        HttpRequestUtil.sendHttpPostCommonRequest(HistoryCommentScoreActicvity.this,
+                HttpAddressProperties.SERVICE_URL,
+                param,
+                HistoryExamResp.class,
+                handlerscore);
+    }
+    
+    class myAdapter extends BaseAdapter
+    {
+        
+        ArrayList<HistroyExamItem> mList = new ArrayList<HistroyExamItem>();
+        
+        @Override
+        public int getCount()
+        {
+            return histroyscorelist.size();
+        }
+        
+        public void setList(ArrayList<HistroyExamItem> histroyscorelist)
+        {
+            if (!ListUtil.isEmpty(histroyscorelist))
+            {
+                this.mList = histroyscorelist;
+                notifyDataSetChanged();
+            }
+            
+        }
+        
+        @Override
+        public Object getItem(int position)
+        {
+            return histroyscorelist.get(position);
+        }
+        
+        @Override
+        public long getItemId(int position)
+        {
+            return position;
+        }
+        
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            final ViewHolder holder;
+            if (convertView == null)
+            {
+                convertView = getLayoutInflater().inflate(R.layout.textviewgallery,
+                        null);
+                holder = new ViewHolder();
+                holder.type = (TextView) convertView.findViewById(R.id.tv_type);
+                holder.time = (TextView) convertView.findViewById(R.id.tv_time);
+                holder.hsc = (HorizontalScrollView) convertView.findViewById(R.id.hsc);
+                holder.ll = (LinearLayout) convertView.findViewById(R.id.ll);
+                convertView.setTag(holder);
+            }
+            else
+            {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            
+            if (null == mList)
+            {
+                return convertView;
+            }
+            HistroyExamItem histroyExamItem = mList.get(position);
+            if (null != histroyExamItem)
+            {
+                
+                if (position == 0)
+                {
+                    holder.type.setVisibility(View.VISIBLE);
+                    if (histroyExamItem.semester.equals("1"))
+                    {
+                        holder.type.setText("第一学期");
+                    }
+                    else
+                    {
+                        holder.type.setText("第二学期");
+                    }
+                }
+                else
+                {
+                    if (histroyExamItem.semester != mList.get(position - 1).semester)
+                    {
+                        holder.type.setVisibility(View.VISIBLE);
+                        if (histroyExamItem.semester.equals("1"))
+                        {
+                            holder.type.setText("第一学期");
+                        }
+                        else
+                        {
+                            holder.type.setText("第二学期");
+                        }
+                    }
+                    else
+                    {
+                        holder.type.setVisibility(View.GONE);
+                    }
+                }
+                holder.time.setText(histroyExamItem.examinationName); //期中考试
+                SubjectItem subjectItem = histroyExamItem.list.get(position);
+                
+                holder.hsc.setOnTouchListener(new OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        switch (event.getAction())
+                        {
+                            case MotionEvent.ACTION_DOWN:
+                                
+                                return true;
+                            case MotionEvent.ACTION_MOVE:
+                                return true;
+                            case MotionEvent.ACTION_UP:
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                
+                holder.ll.scrollTo(ScreenUtils.dip2px(getApplicationContext(),
+                        58) * i,
+                        0);
+                
+                if (histroyExamItem.list.size() > 0)
+                {
+                    setscores(holder.ll, histroyExamItem.list); //空指针
+                    
+                }
+                else
+                {
+                    
+                    Log.i("histroyExamItem.list.size():::",
+                            "histroyExamItem.list.size()");
+                    
+                }
+                
+            }
+            
+            return convertView;
+        }
+        
+        class ViewHolder
+        {
+            TextView type, time;
+            
+            HorizontalScrollView hsc;
+            
+            LinearLayout ll;
+        }
+        
+    }
+    
+    int j = -1;
+    
+    void setscores(final LinearLayout ll,
+            final ArrayList<SubjectItem> subjectScores)
+    {
+        ll.removeAllViews();
+        for (int i = 0; i < subjectScores.size(); i++) //空指针
+        {
+            View convertView = getLayoutInflater().inflate(R.layout.textview,
+                    null);
+            TextView tv = (TextView) convertView.findViewById(R.id.tv_1);
+            double score = 0.0;
+            long score1 = 0;
+            if (score % 1.0 == 0)
+            {
+                score1 = (long) subjectScores.get(i).score;
+                tv.setText(score1 + "");
+            }
+            else
+            {
+                
+                score = subjectScores.get(i).score;
+                tv.setText(score + "");
+            }
+            //  tv.setText(subjectScores.get(i).score + "");
+            tv.setId(i);
+            tv.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (j == v.getId())
+                    {
+                        j = -1;
+                    }
+                    else
+                    {
+                        j = v.getId();
+                    }
+                    m.notifyDataSetChanged();
+                    setColor();
+                }
+            });
+            ll.addView(convertView);
+        }
+        setColor(ll, subjectScores);
+    }
+    
+    //迭代颜色
+    void setColor(LinearLayout ll, ArrayList<SubjectItem> subjectScores)
+    {
+        for (int i = 0; i < subjectScores.size(); i++)
+        {
+            if (j == i)
+            {
+                (ll.getChildAt(i)).setBackgroundColor(Color.parseColor("#66f5e79c")); //    #fbf5e1
+            }
+            else
+            {
+                (ll.getChildAt(i)).setBackgroundColor(Color.parseColor("#ffffff"));
+            }
+        }
+    }
+    
+    //迭代颜色
+    void setColor()
+    {
+        for (int i = 0; i < subjectlist.size(); i++)
+        {
+            if (j == i)
+            {
+                (subjecthLinearLyout.getChildAt(i)).setBackgroundColor(Color.parseColor("#66f5e79c")); //    #fbf5e1
+            }
+            else
+            {
+                (subjecthLinearLyout.getChildAt(i)).setBackgroundColor(Color.parseColor("#ffffff"));
+            }
+        }
+    }
+    
+    /**
+     * 显示Toast提示信息
+     * @param message
+     * @see [类、类#方法、类#成员]
+     */
+    public void showToast(String message)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+    
+}

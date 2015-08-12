@@ -1,0 +1,17 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:background="@drawable/report_item_bg"
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#969697"
+        android:textSize="18sp"
+        android:gravity="center"
+        />
+
+
+
+</RelativeLayout>

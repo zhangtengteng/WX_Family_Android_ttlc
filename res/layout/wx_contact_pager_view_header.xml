@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/contact_pager_view_group_chat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/common_white_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dip" >
+
+        <TextView
+            android:id="@+id/contact_pager_view_class_name"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_weight="1"
+            android:textColor="@color/wx_black_3c3c3c"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/contact_pager_view_group_chat_image"
+            android:layout_width="45dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dip"
+            android:src="@drawable/wx_group_chat_icon" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="57dp"
+    android:layout_height="40dp" >
+
+    <TextView
+        android:id="@+id/tv_subname"
+        android:layout_width="57dp"
+        android:layout_height="40dp"
+        android:clickable="true"
+        android:gravity="center" />
+
+</LinearLayout>

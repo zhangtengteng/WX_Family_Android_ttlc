@@ -1,0 +1,132 @@
+package com.xweisoft.wx.family.logic.model;
+
+import java.io.Serializable;
+
+/**
+ * 消息实体
+ * 
+ * @author  李晨光
+ * @version  [版本号, 2014年6月25日]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class MessageItem implements Serializable
+{
+    
+    public enum MessageType
+    {
+        TEXT, IMAGE, VIDEO, AUDIO, GPS, OTHER
+    }
+    
+    /**
+     * 注释内容
+     */
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * 本地数据库编号
+     */
+    public String id;
+    
+    /**
+     * 消息编号
+     */
+    public String messageId;
+    
+    /**
+     * 聊天对象id
+     */
+    public String userId;
+    
+    /**
+     * 群组id
+     */
+    public String groupId;
+    
+    /**
+     * 是否已读 0 未读 1 已读
+     */
+    public String isRead;
+    
+    /**
+     * 标识消息来源 0 接收到的消息 1 发送的消息
+     */
+    public String isFrom;
+    
+    /**
+     * 消息发送方
+     */
+    public String from;
+    
+    /**
+     * 消息接受方
+     */
+    public String to;
+    
+    /**
+     * 时间戳
+     */
+    public String recTime;
+    
+    /**
+     * 内容（文本）/地址（图片、视频）/坐标（经度，纬度）/其他
+     */
+    public String text;
+    
+    /**
+     * 消息类型
+     * 1文本，2语音，3 视频, 4 图片, 5 地理位置, 6其他文件
+     */
+    public String messageBodyType;
+    
+    /**
+     * 文件大小
+     */
+    public String fileLength;
+    
+    /**
+     * 图片、视频缩略图
+     */
+    public String thumbnailRemotePath;
+    
+    /**
+     * 图片缩略图本地地址
+     */
+    public String thumbLocalPath;
+    
+    /**
+     * 视频、音频、图片本地地址
+     */
+    public String msgLocalPath;
+    
+    /**
+     * 消息时间
+     */
+    public String msgTime;
+    
+    /**
+     * 语音、视频 时长（秒）
+     */
+    public String duration;
+    
+    /**
+     * 聊天对象头像
+     */
+    public String userHeader;
+    
+    /**
+     * 聊天对象名称
+     */
+    public String userName;
+    
+    /**
+     * 接收方称谓
+     */
+    public String userAppellation;
+    
+    /**
+     * 未读消息数量
+     */
+    public String unReadCount;
+    
+}

@@ -1,0 +1,1990 @@
+package com.xweisoft.wx.family.util;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnKeyListener;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Vibrator;
+import android.text.Html;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.global.GlobalConstant;
+import com.xweisoft.wx.family.logic.global.GlobalVariable;
+
+/**
+ * <一句话功能简述>
+ * 通用工具类
+ * 
+ * @author  administrator
+ * @version  [版本号, 2013-10-24]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class Util
+{
+    /**
+     * 日志TAG
+     */
+    private static final String TAG = "===Util===";
+    
+    private static int fileSufix = 0;
+    
+    private static float sPixelDensity = -1f;
+    
+    /**
+     * 
+     * [生成log的tag]<BR>
+     * @param cls
+     * @return
+     */
+    public static String makeLogTag(Class cls)
+    {
+        return "===" + cls.getSimpleName() + "===";
+    }
+    
+    /**
+     * 判断是不是480x320的机型
+     */
+    public static boolean is480x320()
+    {
+        return GlobalVariable.screenWidth == 480
+                && GlobalVariable.screenHeight == 320;
+    }
+    
+    /**
+     * 判断是不是1280x800的机型
+     */
+    public static boolean is1280x800()
+    {
+        if (GlobalVariable.screenWidth == 1280
+                && GlobalVariable.screenHeight == 800
+                || GlobalVariable.screenWidth == 800
+                && GlobalVariable.screenHeight == 1280)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * [设置屏幕方向]<BR>
+     * [功能详细描述]
+     * @param activity
+     */
+    public static void setActivityOrientation(Activity activity)
+    {
+        int requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        
+        if (GlobalVariable.screenWidth == 480
+                && GlobalVariable.screenHeight == 320)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        }
+        else if (GlobalVariable.screenWidth == 320
+                && GlobalVariable.screenHeight == 480)
+        {
+            GlobalVariable.screenWidth = 480;
+            GlobalVariable.screenHeight = 320;
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        }
+        
+        activity.setRequestedOrientation(requestedOrientation);
+    }
+    
+    /**
+     * 判断apn是否3Gwap方式
+     * 
+     * @param context 浏览器对象上下文
+     * @return 是否为3gwap代理(true:apn是3Gwap,false:不是)
+     */
+    public static boolean is3Gwap(Context context)
+    {
+        String apn = getAPN(context);
+        
+        if (null != apn && apn.indexOf(GlobalConstant.NETWORK_TYPE_WAP) >= 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * [检查网络状态]<BR>
+     * [功能详细描述]
+     * @param context
+     */
+    public static void checkNetWorkStatus(Context context)
+    {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //      NetworkInfo gprs = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        //      NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        //      if(!gprs.isConnected() && !wifi.isConnected()) //网络断开
+        //      {
+        //          Log.e(TAG, "###########network_error");
+        //          GlobalVariable.isNetConnected = false;
+        //          MarketToast.showToast(context, R.string.m00_network_error, Toast.LENGTH_SHORT);
+        //      }
+        //      else
+        //      {
+        //          Log.e(TAG, "##########network_OK");
+        //          GlobalVariable.isNetConnected = true;
+        //      }
+        
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        
+        if (networkInfo != null)
+        {
+            if (networkInfo.isConnected())
+            {
+                Log.i(TAG, "Network connected");
+                GlobalVariable.isNetConnected = true;
+            }
+        }
+        else
+        {
+            Log.e(TAG, "Network unavailable");
+            GlobalVariable.isNetConnected = false;
+            //          MarketToast.showToast(context, R.string.m00_network_error, Toast.LENGTH_SHORT);
+        }
+    }
+    
+    /**
+     * 通过context取得ConnectivityManager中的NetworkInfo里关于apn的联网信息
+     * 
+     * @param context 浏览器对象上下文
+     * @return 代理模式
+     */
+    private static String getAPN(Context context)
+    {
+        // 通过context得到ConnectivityManager连接管理
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // 通过ConnectivityManager得到NetworkInfo网络信息
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        // 获取NetworkInfo中的apn信息
+        if (info == null)
+        {
+            return null;
+        }
+        
+        return info.getExtraInfo();
+    }
+    
+    /**
+     * 返回当前时间
+     * 
+     * @return "yyyy-MM-dd HH:mm:ss"格式的时间字符串
+     */
+    public static String getTime()
+    {
+        // 使用默认时区和语言环境获得一个日历
+        Calendar cale = Calendar.getInstance();
+        // 将Calendar类型转换成Date类型
+        Date tasktime = cale.getTime();
+        // 设置日期输出的格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 格式化输出
+        return df.format(tasktime);
+    }
+    
+    /**
+     * 返回时间戳
+     * 
+     */
+    public static String getSystemTime()
+    {
+        return System.currentTimeMillis() + "";
+    }
+    
+    /**
+     * 解压zip格式的压缩包
+     * 
+     * @param inPath 输入路径
+     * @param outPath 输出路径
+     * @return 解压成功或失败标志
+     */
+    public static Boolean openZip(String inPath, String outPath)
+    {
+        String unzipfile = inPath; // 解压缩的文件名
+        try
+        {
+            ZipInputStream zin = new ZipInputStream(new FileInputStream(
+                    unzipfile));
+            ZipEntry entry;
+            // 创建文件夹
+            while ((entry = zin.getNextEntry()) != null)
+            {
+                if (entry.isDirectory())
+                {
+                    File directory = new File(outPath, entry.getName());
+                    if (!directory.exists())
+                    {
+                        if (!directory.mkdirs())
+                        {
+                            System.exit(0);
+                        }
+                    }
+                    zin.closeEntry();
+                }
+                else
+                {
+                    File myFile = new File(entry.getName());
+                    FileOutputStream fout = new FileOutputStream(outPath
+                            + myFile.getPath());
+                    DataOutputStream dout = new DataOutputStream(fout);
+                    byte[] b = new byte[1024];
+                    int len = 0;
+                    while ((len = zin.read(b)) != -1)
+                    {
+                        dout.write(b, 0, len);
+                    }
+                    dout.close();
+                    fout.close();
+                    zin.closeEntry();
+                }
+            }
+            return true;
+        }
+        catch (IOException e)
+        {
+            LogX.getInstance().e(TAG, e.toString());
+            return false;
+        }
+    }
+    
+    /**
+     * 将字符串str按子字符串separatorChars 分割成数组
+     * 
+     * @param str 要拆分的字符串
+     * @param separatorChars 用来拆分的分割字符
+     * @return 拆分后的字符串
+     */
+    public static String[] split2(String str, String separatorChars)
+    {
+        return splitWorker(str, separatorChars, -1, false);
+    }
+    
+    /**
+     * 拆分字符串
+     * 
+     * @param str 要拆分的字符串
+     * @param separatorChars 用来拆分的分割字符
+     * @param max 要拆分字符串的最大长度
+     * @param preserveAllTokens
+     * @return 拆分后的字符串
+     */
+    private static String[] splitWorker(String str, String separatorChars,
+            int max, boolean preserveAllTokens)
+    {
+        if (str == null)
+        {
+            return null;
+        }
+        int len = str.length();
+        if (len == 0)
+        {
+            return new String[] { "" };
+        }
+        Vector<String> vector = new Vector<String>();
+        int sizePlus1 = 1;
+        int i = 0;
+        int start = 0;
+        boolean match = false;
+        boolean lastMatch = false;
+        if (separatorChars == null)
+        {
+            while (i < len)
+            {
+                if (str.charAt(i) == '\r' || str.charAt(i) == '\n'
+                        || str.charAt(i) == '\t')
+                {
+                    if (match || preserveAllTokens)
+                    {
+                        lastMatch = true;
+                        if (sizePlus1++ == max)
+                        {
+                            i = len;
+                            lastMatch = false;
+                        }
+                        vector.addElement(str.substring(start, i));
+                        match = false;
+                    }
+                    start = ++i;
+                }
+                else
+                {
+                    lastMatch = false;
+                    match = true;
+                    i++;
+                }
+            }
+        }
+        else if (separatorChars.length() == 1)
+        {
+            char sep = separatorChars.charAt(0);
+            while (i < len)
+            {
+                if (str.charAt(i) == sep)
+                {
+                    if (match || preserveAllTokens)
+                    {
+                        lastMatch = true;
+                        if (sizePlus1++ == max)
+                        {
+                            i = len;
+                            lastMatch = false;
+                        }
+                        vector.addElement(str.substring(start, i));
+                        match = false;
+                    }
+                    start = ++i;
+                }
+                else
+                {
+                    lastMatch = false;
+                    match = true;
+                    i++;
+                }
+            }
+        }
+        else
+        {
+            while (i < len)
+            {
+                int id = i + separatorChars.length() < len ? i
+                        + separatorChars.length() : len;
+                if (separatorChars.indexOf(str.charAt(i)) >= 0
+                        && separatorChars.equals(str.substring(i, id)))
+                {
+                    if (match || preserveAllTokens)
+                    {
+                        lastMatch = true;
+                        if (sizePlus1++ == max)
+                        {
+                            i = len;
+                            lastMatch = false;
+                        }
+                        vector.addElement(str.substring(start, i));
+                        match = false;
+                    }
+                    i += separatorChars.length();
+                    start = i;
+                }
+                else
+                {
+                    lastMatch = false;
+                    match = true;
+                    i++;
+                }
+            }
+        }
+        
+        if (match || preserveAllTokens && lastMatch)
+        {
+            vector.addElement(str.substring(start, i));
+        }
+        String[] ret = new String[vector.size()];
+        vector.copyInto(ret);
+        return ret;
+    }
+    
+    /**
+     * Drawable对象转化Bitmap对象
+     * 
+     * @param drawable Drawable对象
+     * @return Bitmap对象
+     */
+    public static Bitmap drawableToBitmap(Drawable drawable)
+    {
+        
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        // canvas.setBitmap(bitmap);
+        drawable.setBounds(0,
+                0,
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    
+    /**
+     * Bitmap对象转化byte数组
+     * 
+     * @param bitmap Bitmap对象
+     * @return byte数组
+     */
+    public static byte[] bitmapToBytes(Bitmap bitmap)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+    
+    /**
+     * Byte数组转化为Bitmap对象
+     * 
+     * @param data byte数组
+     * @return Bitmap对象
+     */
+    public static Bitmap bytesToBimap(byte[] data)
+    {
+        if (data != null && data.length != 0)
+        {
+            return BitmapFactory.decodeByteArray(data, 0, data.length);
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * 创建确认提示框方法
+     * 
+     * @param context 对话框所在的Activity
+     * @param title 对话框标题
+     * @param message 提示框中显示的文本资源
+     * @param onClickListener 需要监听用户按键事件的监听接口对象
+     * @return 对话框对象
+     */
+    public static Dialog confirmDialog(Context context, int title, int message,
+            OnClickListener onClickListener)
+    {
+        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(context.getResources()
+                        .getString(R.string.ok),
+                        onClickListener)
+                .create();
+        
+        return dialog;
+    }
+    
+    /**
+     * 创建确认提示框方法<BR>
+     * @param context 对话框所在的Activity
+     * @param title 对话框标题
+     * @param message 提示框中显示的文本资源
+     * @param onClickListener 需要监听用户按键事件的监听接口对象
+     * @return 对话框对象
+     */
+    public static Dialog confirmDialog(Context context, String title,
+            String message, OnClickListener onClickListener)
+    {
+        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(context.getResources()
+                        .getString(R.string.ok),
+                        onClickListener)
+                .create();
+        
+        return dialog;
+    }
+    
+    /**
+     * 选择对话框方法
+     * 
+     * @param context 对话框所在的Activity
+     * @param title 对话框标题
+     * @param message 提示框中显示的文本资源
+     * @param onClickListener 需要监听用户按键事件的监听接口对象
+     * @return 对话框对象
+     */
+    public static Dialog optionDialog(Context context, int title, int message,
+            OnClickListener onClickListener)
+    {
+        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, onClickListener)
+                .setNegativeButton(R.string.cancel, onClickListener)
+                .create();
+        
+        return dialog;
+    }
+    
+    /**
+     * 选择对话框方法
+     * 
+     * @param context 对话框所在的Activity
+     * @param title 对话框标题
+     * @param message 提示框中显示的文本资源
+     * @param onClickListener 需要监听用户按键事件的监听接口对象
+     * @param onKeyListener  监听用户按键事件
+     * @return 对话框对象
+     */
+    public static Dialog optionDialog(Context context, String title,
+            String message, OnClickListener onClickListener,
+            OnKeyListener onKeyListener)
+    {
+        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, onClickListener)
+                .setNegativeButton(R.string.cancel, onClickListener)
+                .setOnKeyListener(onKeyListener)
+                .create();
+        
+        return dialog;
+    }
+    
+    /**
+     *  检查网络情况<BR>
+     * @param context 上下文
+     * @param httpUrl 请求地址
+     * @return 网络是否通
+     */
+    public static boolean testNetwork(final Context context, String httpUrl)
+    {
+        HttpURLConnection connection = null;
+        URL url = null;
+        try
+        {
+            url = new URL(httpUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setConnectTimeout(5000);
+            connection.connect();
+        }
+        catch (IOException e)
+        {
+            return false;
+        }
+        finally
+        {
+            try
+            {
+                if (connection != null)
+                {
+                    connection.disconnect();
+                }
+            }
+            catch (Exception e)
+            {
+                LogX.getInstance().e(TAG, e.toString());
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * 退出客户端
+     * @param context 上下文
+     */
+    public static void killAppStoreProcess(Context context)
+    {
+        // 屏蔽这个接口 modified by xin.huang
+        /*
+         * // 退出前发送UpdateCID请求至服务器 UpdateCIDRequest updateRequest = new
+         * UpdateCIDRequest( context, new Handler(),
+         * GlobalVariable.appStore_UpdateCID, GlobalVariable.userId, true);
+         * updateRequest.sendHttpRequest(); try { //退出前稍等一下UpdateCID请求
+         * Thread.sleep(1000); } catch (InterruptedException e) {
+         * e.printStackTrace(); }
+         */
+        
+        // 退出前先关闭Log文件
+        // LogX.getInstance().closeFile();
+        ((Activity) context).finish();
+        
+        // 适配Android2.0/2.1与Android2.2版本，使用统一的退出当前程序方式
+        // 这种方式，只能退出单一的Activity，办法直接退出所有的，所以需要注意在Activity跳转时，
+        // 需要先将不再进入的Activity结束掉其自身
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+    
+    /**
+     * 用于登录,注册,修改时的密码加密，先SHA-256加密，再进行16进制编码
+     * 
+     * @param str 字符串未加密
+     * @return 加密后字符串
+     */
+    public static String shaEncrypte(String str)
+    {
+        if (null == str)
+        {
+            return "";
+        }
+        else
+        {
+            MessageDigest md = null;
+            try
+            {
+                md = MessageDigest.getInstance("SHA-256");
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                LogX.getInstance().e(TAG, e.toString());
+                return "";
+            }
+            md.update(str.getBytes(), 0, str.getBytes().length);
+            byte temp[] = md.digest();
+            
+            StringBuffer sb = new StringBuffer(temp.length);
+            String sTemp;
+            for (int i = 0; i < temp.length; i++)
+            {
+                sTemp = Integer.toHexString(0xFF & temp[i]);
+                if (sTemp.length() < 2)
+                {
+                    sb.append(0);
+                }
+                sb.append(sTemp);
+            }
+            return sb.toString();
+        }
+    }
+    
+    /**
+     * 用于登录,注册,修改时的密码加密，先SHA-256加密，再进行base64编码
+     * 
+     * @param str 字符串未加密
+     * @return 加密后字符串
+     */
+    public static String shaEncrypteBase64(String str)
+    {
+        if (null == str)
+        {
+            return "";
+        }
+        else
+        {
+            MessageDigest md = null;
+            try
+            {
+                md = MessageDigest.getInstance("SHA-256");
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                LogX.getInstance().e(TAG, e.toString());
+                return "";
+            }
+            md.update(str.getBytes(), 0, str.getBytes().length);
+            byte temp[] = md.digest();
+            
+            return Base64.encode(temp);
+        }
+    }
+    
+    /**
+     * 从string中获得float型的系统版本号
+     * 
+     * @return 系统版本号
+     */
+    public static float getSystemVersion()
+    {
+        if (GlobalVariable.versionName == null)
+        {
+            GlobalVariable.versionName = "1.0.0";
+        }
+        String systemVersion = GlobalVariable.versionName;
+        
+        int begin = 0;
+        for (int i = 0; i < systemVersion.length(); i++)
+        {
+            if (Character.isDigit(systemVersion.charAt(i)))
+            {
+                begin = i;
+                break;
+            }
+        }
+        int end = systemVersion.indexOf('.') + 2;
+        
+        float version = Float.parseFloat(systemVersion.substring(begin, end));
+        
+        return version;
+    }
+    
+    /**
+     * 字符串空格过来处理
+     * 
+     * @param text 带处理字符串
+     * @return 处理后字符串
+     */
+    public static String getContent(String text)
+    {
+        if (text != null)
+        {
+            return text.trim();
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 字符串空格过来处理
+     * 
+     * @param text 带处理字符串
+     * @return 处理后字符串
+     */
+    public static String getCountByValue(String text)
+    {
+        if (text == null || "".equals(text))
+        {
+            return "0";
+        }
+        else if ("".equals(text.trim()))
+        {
+            return "0";
+        }
+        return text.trim();
+    }
+    
+    /**
+     * 字符串转换为软件包pagesize
+     * 
+     * @param tagText 带处理数据
+     * @return pagesize
+     */
+    public static String formatSizeData(String tagText)
+    {
+        // 最后保存的值
+        String appSize = "";
+        // 单位MB
+        int mByte = 1024 * 1024;
+        // 浮点数规格
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(1);
+        // 对服务器返回的值进行处理
+        try
+        {
+            double size = Double.parseDouble(tagText);
+            if (size < mByte)
+            {
+                appSize = numberFormat.format(size / 1024) + "K";
+            }
+            else
+            {
+                appSize = numberFormat.format(size / mByte) + "M";
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            appSize = tagText;
+        }
+        
+        return appSize;
+    }
+    
+    /**
+     * 处理请求参数里的特殊符号
+     * 
+     * @param param url参数
+     * @return 处理后的字符串
+     */
+    public static String parseUrlParam(String param)
+    {
+        return param.replaceAll("%", "%25")
+                .replaceAll("\\+", "%2B")
+                .replaceAll("\\?", "%3F")
+                .replaceAll(" ", "%20")
+                .replaceAll("#", "%23")
+                .replaceAll("/", "%2F")
+                .replaceAll("&", "%26")
+                .replaceAll("=", "%3D");
+    }
+    
+    /**
+     * 
+     * 国家码截取
+     * 
+     * @param param 参数
+     * @return 处理后参数
+     */
+    public static String getCountryCode(String param)
+    {
+        return param.substring(0, 2);
+    }
+    
+    /**
+     * 获取屏幕宽度
+     * 
+     * @param activity 当前页面
+     * @return 屏幕宽
+     */
+    public static int getScreenWidth(Activity activity)
+    {
+        DisplayMetrics dm = null;
+        if (null == dm)
+        {
+            dm = new DisplayMetrics();
+        }
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+        
+    }
+    
+    /**
+     * 根据apk文件的路径获取packageName
+     * 
+     * @param context 上下文
+     * @param path apk路径
+     * @return 包名
+     */
+    public static String getApkPackageName(Context context, String path)
+    {
+        PackageManager pm = context.getPackageManager();
+        PackageInfo info = pm.getPackageArchiveInfo(path,
+                PackageManager.GET_ACTIVITIES);
+        String packageName = null;
+        if (null != info)
+        {
+            packageName = info.applicationInfo.packageName;
+        }
+        return packageName;
+    }
+    
+    /**
+     * 
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param context
+     * @param path
+     * @return [参数说明]
+     * 
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getApkVersionName(Context context)
+    {
+        PackageManager pm = context.getPackageManager();
+        PackageInfo info = null;
+        String packageName = "";
+        try
+        {
+            info = pm.getPackageInfo(context.getPackageName(), 0);
+        }
+        catch (NameNotFoundException e)
+        {
+            LogX.getInstance().e(TAG, e.toString());
+        }
+        if (null != info)
+        {
+            packageName = info.versionName;
+        }
+        return packageName;
+    }
+    
+    /**
+     * 震动
+     * 
+     * @param context 上下文
+     */
+    public static void startShock(Context context)
+    {
+        
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        
+        // 停止 开启 停止 开启
+        long[] pattern = { 0, 1000 };
+        
+        // 重复两次上面的pattern 如果只想震动一次，index设为-1
+        vibrator.vibrate(pattern, -1);
+    }
+    
+    /**
+     * 将long类型的文件大小进行转换
+     * 
+     * @param length 文件长度
+     * @return 转换后的文件按大小
+     */
+    public static String formatFileSize(long length, Context context)
+    {
+        String result = null;
+        int subString = 0;
+        if (length >= 1073741824)
+        {
+            subString = String.valueOf((float) length / 1073741824)
+                    .indexOf(".");
+            result = ((float) length / 1073741824 + "000").substring(0,
+                    subString + 3) + "GB";
+        }
+        else if (length >= 1048576)
+        {
+            subString = String.valueOf((float) length / 1048576).indexOf(".");
+            result = ((float) length / 1048576 + "000").substring(0,
+                    subString + 3) + "MB";
+        }
+        else if (length >= 1024)
+        {
+            subString = String.valueOf((float) length / 1024).indexOf(".");
+            result = ((float) length / 1024 + "000").substring(0, subString + 3)
+                    + "KB";
+        }
+        else if (length < 1024)
+        {
+            result = Long.toString(length) + "B";
+        }
+        return result;
+    }
+    
+    /**
+     * 关闭软键盘
+     * 
+     * @param activity 当前页面
+     */
+    public static void hideSoftInputFromWindow(Activity activity)
+    {
+        View currentFocusView = activity.getCurrentFocus();
+        if (currentFocusView != null)
+        {
+            ((InputMethodManager) (activity.getSystemService(Context.INPUT_METHOD_SERVICE))).hideSoftInputFromWindow(currentFocusView.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+    
+    /**
+     * 
+     * 匹配取值<BR>
+     * 
+     * @param str 字符串
+     * @return 匹配得到字符
+     */
+    public static String getMatcherStr(String str)
+    {
+        if (null == str)
+        {
+            return null;
+        }
+        String regex = "(?<=&hw_contentcode=).*?(?=&)";
+        Matcher m = Pattern.compile(regex).matcher(str);
+        if (m.find())
+        {
+            return m.group();
+        }
+        else
+        {
+            regex = "(?<=&hw_contentcode=).*";
+            m = Pattern.compile(regex).matcher(str);
+            if (m.find())
+            {
+                return m.group();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 检查email格式
+     * 
+     * @param email 待检查email
+     * @return 是否是合法email地址
+     */
+    public static boolean isEmail(String email)
+    {
+        //        String check = "^(w+[-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*$";
+        String check = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+        Pattern regex = Pattern.compile(check);
+        Matcher matcher = regex.matcher(email);
+        boolean isMatched = matcher.matches();
+        return isMatched;
+    }
+    
+    /**
+     * 
+     * 验证电话号码格式 
+     * @param phone 电话号码 
+     * @return 是否是合法的电话号码
+     */
+    public static boolean isPhone(String phone)
+    {
+        //用正则表达式判断一个字符串中是否为电话号码，
+        //String check = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+        //号码格式
+        //号码格式为 7 8 10 11 12 位
+        String check = "(^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(\\d{3,4}))\\d{7,8})|\\d{7,8}";
+        Pattern regex = Pattern.compile(check);
+        Matcher matcher = regex.matcher(phone);
+        boolean isMatched = matcher.matches();
+        return isMatched;
+    }
+    
+    /**
+     * 验证11位的手机号
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param phone
+     * @return [参数说明]
+     * 
+     * @return boolean [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean isPhoneNumber(String phone)
+    {
+        String check = "^(13|15|18|14|17)\\d{9}$";
+        Pattern regex = Pattern.compile(check);
+        Matcher matcher = regex.matcher(phone);
+        boolean isMatched = matcher.matches();
+        return isMatched;
+    }
+    
+    /** <一句话功能简述>
+     * 判断手机号码是不是电信号码
+     * 电信号码开头：133 1349 153  180  181 189
+     * <功能详细描述>
+     * @param phone
+     * @return [参数说明]
+     * @return boolean [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean isTelecomNumber(String phone)
+    {
+        if (!TextUtils.isEmpty(phone)
+                && phone.length() == 11
+                && (phone.startsWith("133") || phone.startsWith("1349")
+                        || phone.startsWith("153") || phone.startsWith("180")
+                        || phone.startsWith("181") || phone.startsWith("189")
+                        || phone.startsWith("177") || phone.startsWith("147")))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /** <一句话功能简述>
+     * 判断输入日期是否小于当前时间
+     * <功能详细描述>
+     * @param date 输入日期格式必须是yyyy-MM-dd
+     * @return [参数说明]
+     * 
+     * @return boolean [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean isLegalDate(String date, String currentDate)
+    {
+        Date nowdate;
+        Date d;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        boolean isLegalBirth = false;
+        try
+        {
+            nowdate = sdf.parse(currentDate);
+            d = sdf.parse(date);
+            isLegalBirth = d.before(nowdate);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return isLegalBirth;
+    }
+    
+    /** <一句话功能简述>
+     * 封装服务器返回的距离  如果小于1000,单位m;否则km
+     * <功能详细描述>
+     * @param distance
+     * @return [参数说明]
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getDistanceStr(double distance)
+    {
+        if (distance == 0)
+        {
+            return "";
+        }
+        DecimalFormat df = new DecimalFormat("########.0");
+        if (distance < 1000)
+        {
+            String d = df.format(distance);
+            return d + "m";
+        }
+        else
+        {
+            //将单位m转换成km，并保留1位有效数字
+            distance = distance / 1000;
+            String d = df.format(distance);
+            return d + "km";
+        }
+    }
+    
+    /** <一句话功能简述>
+     * 封装服务器返回的电话次数  如果小于10000,否则>1万次 >10万 >100万
+     * <功能详细描述>
+     * @param distance
+     * @return [参数说明]
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getPhoneCountStr(int phoneCount)
+    {
+        if (phoneCount == 0)
+        {
+            return "0次";
+        }
+        if (phoneCount < 10000)
+        {
+            return phoneCount + "次";
+        }
+        else if (phoneCount < 100000)
+        {
+            return ">1万次";
+        }
+        else
+        {
+            return ">10万次";
+        }
+    }
+    
+    /**
+     * 读取流数据写文件<BR>
+     * [功能详细描述]
+     * 
+     * @param path 写文件的地址
+     * @param fileName 文件名
+     * @param data 输入流
+     */
+    public static void writeFile(String path, String fileName, byte[] data)
+    {
+        FileOutputStream fis = null;
+        try
+        {
+            File file = new File(path);
+            if (!file.exists())
+            {
+                file.mkdirs();
+            }
+            fis = new FileOutputStream(new File(path + fileName));
+            fis.write(data);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (null != fis)
+            {
+                try
+                {
+                    fis.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    /**
+     * 获取图片的后缀<BR>
+     * 
+     * @param str 获取后缀的字符串
+     * @return 后缀
+     */
+    public static String getFileSuffix(String str)
+    {
+        String suffix = null;
+        int i = -1;
+        if ((i = str.lastIndexOf(".")) != -1)
+        {
+            suffix = str.substring(i).toLowerCase();
+            if (".jpeg".equals(suffix) || ".jpg".equals(suffix)
+                    || ".bmp".equals(suffix) || ".gif".equals(suffix)
+                    || ".png".equals(suffix) || ".wbmp".equals(suffix))
+            {
+                return suffix;
+            }
+            else
+            {
+                return ".jpg";
+            }
+        }
+        else
+        {
+            return ".jpg";
+        }
+    }
+    
+    /**
+     * 获取图片的名<BR>
+     * 
+     * @param str icon地址
+     * @return 图片的名
+     */
+    public static String getFileName(String str)
+    {
+        int i = -1;
+        if ((i = str.lastIndexOf("/")) != -1)
+        {
+            String temp = str.substring(i + 1);
+            int j = -1;
+            if ((j = temp.lastIndexOf("?")) != -1)
+            {
+                return temp.substring(0, j);
+            }
+            return str.substring(i + 1);
+        }
+        else
+        {
+            return GlobalConstant.APP_DEFAULT_ICON_NAME;
+        }
+    }
+    
+    /**
+     * 下载文件名编号,目的是避免文件名重复 [一句话功能简述]<BR>
+     * [功能详细描述]
+     * 
+     * @return 获取文件编号
+     */
+    public static int getFileSufix()
+    {
+        return ++fileSufix;
+    }
+    
+    /**
+     * dp和px换算
+     * @param context 上下文
+     * @param dp dp转换数字
+     * @return 转换后的数字
+     */
+    public static int dpToPixel(Context context, int dp)
+    {
+        return (int) (dpToPixel(context, (float) dp) + .5f);
+    }
+    
+    /**
+     * dp和px换算
+     * @param context 上下文
+     * @param dp dp转换数字
+     * @return 转换后的数字
+     */
+    public static int dpToPixel2(Context context, float dp)
+    {
+        return (int) (dpToPixel(context, dp) + .5f);
+    }
+    
+    /**
+     * dp和px换算
+     * @param context 上下文
+     * @param dp dp转换数字
+     * @return 转换后的数字
+     */
+    public static synchronized float dpToPixel(Context context, float dp)
+    {
+        if (sPixelDensity < 0)
+        {
+            DisplayMetrics metrics = new DisplayMetrics();
+            ((Activity) context).getWindowManager()
+                    .getDefaultDisplay()
+                    .getMetrics(metrics);
+            sPixelDensity = metrics.density;
+        }
+        return sPixelDensity * dp;
+    }
+    
+    /**
+     * 判断是否存在SD卡
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @return [参数说明]
+     * 
+     * @return boolean [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean isHasSDcard()
+    {
+        if (android.os.Environment.getExternalStorageState()
+                .equals(android.os.Environment.MEDIA_MOUNTED))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * 目录创建
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param path [父目录的路径]
+     * 
+     * @return File [返回类型说明] 返回父目录
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static File makeDirs(String path)
+    {
+        File file = new File(path);
+        if (null != file && !file.exists())
+        {
+            file.mkdirs();
+        }
+        return file;
+    }
+    
+    /**
+     * 
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param type
+     * @return [参数说明]
+     * 
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getFileNameByTime(int type)
+    {
+        if (GlobalConstant.FILE_PHOTO == type)
+        {
+            return System.currentTimeMillis() + ".jpg";
+        }
+        else if (GlobalConstant.FILE_VIDEO == type)
+        {
+            return System.currentTimeMillis() + ".mp4";
+        }
+        return "";
+    }
+    
+    /** 通过应用名和包名判断是否安装了GMAIL
+     * @return    true：是 false：否
+     */
+    public static boolean checkIsInstalledGmai()
+    {
+        boolean hasGmail = true;
+        PackageManager pm = GlobalVariable.currentActivity.getPackageManager();
+        try
+        {
+            pm.getPackageInfo("com.google.android.gm",
+                    PackageManager.GET_ACTIVITIES);
+        }
+        catch (Exception e)
+        {
+            hasGmail = false;
+            return hasGmail;
+        }
+        return hasGmail;
+    }
+    
+    /**
+     * 字符型转换成整型
+     * @param s
+     * @return
+     */
+    public static float getStringToFloat(String s)
+    {
+        try
+        {
+            if (null == s)
+            {
+                s = "";
+            }
+            s = s.replaceAll(",", "");
+            s = s.replaceAll(" ", "");
+            float str = Float.parseFloat(s);
+            LogX.getInstance().i(TAG, "getStringToInt:s=" + str);
+            return str;
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+    }
+    
+    /**
+     * 将bitmap转换成base64字符
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param bitmap
+     * @return [参数说明]
+     * 
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String bitmapStrToBase64(String path)
+    {
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        if (bitmap != null)
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(CompressFormat.PNG, 100, baos);
+            byte[] bytes = baos.toByteArray();
+            return Base64.encode(bytes);
+        }
+        else
+        {
+            return "";
+        }
+    }
+    
+    /**
+     * 将base64字符转换成bitmap
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param baseStr
+     * @return [参数说明]
+     * 
+     * @return Bitmap [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static Bitmap StrBase64ToBitmap(String baseStr)
+    {
+        byte[] bitmapArray;
+        bitmapArray = Base64.decode(baseStr);
+        return BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+    }
+    
+    /**
+     * 把字节数组保存为一个文件
+     */
+    public static boolean saveFile(File file, byte[] b)
+    {
+        boolean ret = false;
+        BufferedOutputStream stream = null;
+        try
+        {
+            FileOutputStream fstream = new FileOutputStream(file);
+            stream = new BufferedOutputStream(fstream);
+            stream.flush();
+            stream.write(b, 0, b.length);
+            ret = true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (stream != null)
+            {
+                try
+                {
+                    stream.close();
+                }
+                catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     * 根据文件路径获取文件目录
+     * */
+    public static String clearFileName(String str)
+    {
+        int i = str.lastIndexOf(File.separator);
+        if (i != -1)
+        {
+            return str.substring(0, i + 1);
+        }
+        return str;
+    }
+    
+    /**
+     * 根据文件名获取不带后缀名的文件名
+     * */
+    public static String clearSuffix(String str)
+    {
+        int i = str.lastIndexOf(".");
+        if (i != -1)
+        {
+            return str.substring(0, i);
+        }
+        return str;
+    }
+    
+    /**
+     * 格式化毫秒->00:00
+     * */
+    public static String formatSecondTime(int millisecond)
+    {
+        if (millisecond == 0)
+        {
+            return "00:00";
+        }
+        millisecond = millisecond / 1000;
+        int m = millisecond / 60 % 60;
+        int s = millisecond % 60;
+        return (m > 9 ? m : "0" + m) + ":" + (s > 9 ? s : "0" + s);
+    }
+    
+    public static String formatScore(String score)
+    {
+        if (TextUtils.isEmpty(score))
+        {
+            return "";
+        }
+        DecimalFormat df = new DecimalFormat("########.#");
+        String s = null;
+        try
+        {
+            
+            s = df.format(Double.parseDouble(score));
+        }
+        catch (Exception e)
+        {
+            
+            s = "";
+        }
+        return s;
+    }
+    
+    /**
+     * 重新生成图片文件
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param file 缩略图生成文件
+     * @param bitmap [系统返回缩略图bitmap]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static void createImage(File file, Bitmap bitmap)
+    {
+        if (file.exists())
+        {
+            file.delete();
+        }
+        FileOutputStream b = null;
+        try
+        {
+            b = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, b);
+        }
+        catch (FileNotFoundException e)
+        {
+            LogX.getInstance().e(TAG, e.toString());
+        }
+        finally
+        {
+            try
+            {
+                b.flush();
+                b.close();
+            }
+            catch (IOException e)
+            {
+                LogX.getInstance().e(TAG, e.toString());
+            }
+            if (bitmap != null)
+            {
+                bitmap.recycle();
+                bitmap = null;
+                System.gc();
+            }
+        }
+    }
+    
+    /**
+     * 重新生成图片文件
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param file 缩略图生成文件
+     * @param bitmap [系统返回缩略图bitmap]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static Bitmap compressImage(Bitmap bitmap)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中  
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 150)
+        { //循环判断如果压缩后图片是否大于100kb,大于继续压缩         
+            baos.reset();//重置baos即清空baos  
+            if (options <= 0)
+            {
+                options = 1;
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+                break;
+            }
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中  
+            options -= 10;//每次都减少10  
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中  
+        bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片  
+        return bitmap;
+    }
+    
+    /**
+     * 加载压缩图片
+     * <功能详细描述>
+     * @param image
+     * @return [参数说明]
+     * 
+     * @return Bitmap [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static Bitmap comp(Bitmap image)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        if (baos.toByteArray().length / 1024 > 200)
+        {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出    
+            baos.reset();//重置baos即清空baos  
+            image.compress(Bitmap.CompressFormat.JPEG, 70, baos);//这里压缩50%，把压缩后的数据存放到baos中  
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        //开始读入图片，此时把options.inJustDecodeBounds 设回true了  
+        newOpts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+        newOpts.inJustDecodeBounds = false;
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+        //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为  
+        float hh = 400f;//这里设置高度为800f  
+        float ww = 320f;//这里设置宽度为480f  
+        //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可  
+        int be = 1;//be=1表示不缩放  
+        if (w <= h && w > ww)
+        {
+            //如果宽度大的话根据宽度固定大小缩放  
+            be = (int) (newOpts.outWidth / ww + 0.8);
+        }
+        else if (w > h && h > hh)
+        {
+            //如果高度高的话根据宽度固定大小缩放  
+            be = (int) (newOpts.outHeight / hh + 0.8);
+        }
+        if (be <= 0)
+        {
+            be = 1;
+        }
+        newOpts.inSampleSize = be;//设置缩放比例  
+        //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了  
+        isBm = new ByteArrayInputStream(baos.toByteArray());
+        bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+        return compressImage(bitmap);//压缩好比例大小后再进行质量压缩  
+    }
+    
+    /**
+     * 图片裁剪成圆形
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param bitmap
+     * @return [参数说明]
+     * 
+     * @return Bitmap [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static Bitmap toRoundBitmap(Bitmap bitmap)
+    {
+        if (null != bitmap)
+        {
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            float roundPx;
+            float left, top, right, bottom, dst_left, dst_top, dst_right, dst_bottom;
+            if (width <= height)
+            {
+                roundPx = width / 2;
+                top = 0;
+                bottom = width;
+                left = 0;
+                right = width;
+                height = width;
+                dst_left = 0;
+                dst_top = 0;
+                dst_right = width;
+                dst_bottom = width;
+            }
+            else
+            {
+                roundPx = height / 2;
+                float clip = (width - height) / 2;
+                left = clip;
+                right = width - clip;
+                top = 0;
+                bottom = height;
+                width = height;
+                dst_left = 0;
+                dst_top = 0;
+                dst_right = height;
+                dst_bottom = height;
+            }
+            Bitmap output = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+            final int color = 0xff424242;
+            final Paint paint = new Paint();
+            final Rect src = new Rect((int) left, (int) top, (int) right,
+                    (int) bottom);
+            final Rect dst = new Rect((int) dst_left, (int) dst_top,
+                    (int) dst_right, (int) dst_bottom);
+            final RectF rectF = new RectF(dst);
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(color);
+            canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+            paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, src, dst, paint);
+            return output;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * 放缩图片
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param bitmap 
+     * @param size 放缩大小 float类型
+     * @return [参数说明]
+     * 
+     * @return Bitmap [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static Bitmap zoomSmall(Bitmap bitmap, float size)
+    {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float s = (float) size / bitmap.getWidth() > 1 ? 1 : (float) size
+                / bitmap.getWidth();
+        Matrix matrix = new Matrix();
+        matrix.postScale(s, s);
+        Bitmap newbmp = Bitmap.createBitmap(bitmap,
+                0,
+                0,
+                width,
+                height,
+                matrix,
+                true);
+        return newbmp;
+    }
+    
+    /**
+     * 字符为null处理
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param str
+     * @return [参数说明]
+     * 
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String checkNull(String str)
+    {
+        return str == null ? "" : str;
+    }
+    
+    /**
+     * 把中文转成Unicode码
+     * @param str
+     * @return
+     */
+    public static String chinaToUnicode(String str)
+    {
+        String result = "";
+        for (int i = 0; i < str.length(); i++)
+        {
+            int chr1 = (char) str.charAt(i);
+            if (chr1 >= 19968 && chr1 <= 171941)
+            {//汉字范围 \u4e00-\u9fa5 (中文)
+                result += "\\u" + Integer.toHexString(chr1);
+            }
+            else
+            {
+                result += str.charAt(i);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 验证
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param text
+     * @return [参数说明]
+     * 
+     * @return boolean [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean isIdCard(String text)
+    {
+        String regx = "[0-9]{17}x";
+        String reg1 = "[0-9]{15}";
+        String regex = "[0-9]{18}";
+        boolean flag = text.matches(regx) || text.matches(reg1)
+                || text.matches(regex);
+        return flag;
+    }
+    
+    /**
+     * 获取字符串的长度，如果有中文，则每个中文字符计为2位
+     * 
+     * @param value
+     *            指定的字符串
+     * @return 字符串的长度
+     */
+    public static int getStrLength(String value)
+    {
+        if (StringUtil.isEmpty(value))
+        {
+            return 0;
+        }
+        int valueLength = 0;
+        String chinese = "[\u0391-\uFFE5]";
+        /* 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1 */
+        for (int i = 0; i < value.length(); i++)
+        {
+            /* 获取一个字符 */
+            String temp = value.substring(i, i + 1);
+            /* 判断是否为中文字符 */
+            if (temp.matches(chinese))
+            {
+                /* 中文字符长度为2 */
+                valueLength += 2;
+            }
+            else
+            {
+                /* 其他字符长度为1 */
+                valueLength += 1;
+            }
+        }
+        return valueLength;
+    }
+    
+    /**
+     * 获取状态栏高度
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param context [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static void getStatusBarHeight(Context context)
+    {
+        if (null != context)
+        {
+            //add by gac 20150303
+            //获取状态栏的高度
+            Class<?> c = null;
+            Object obj = null;
+            Field field = null;
+            int x = 0;
+            try
+            {
+                c = Class.forName("com.android.internal.R$dimen");
+                obj = c.newInstance();
+                field = c.getField("status_bar_height");
+                x = Integer.parseInt(field.get(obj).toString());
+                GlobalVariable.statusBarHeight = context.getResources()
+                        .getDimensionPixelSize(x);
+            }
+            catch (Exception e)
+            {
+            }
+        }
+    }
+    
+    /**
+     * 去除Html标签
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param str
+     * @return [参数说明]
+     * 
+     * @return String [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String fromHtml(String htmlStr)
+    {
+        if (!TextUtils.isEmpty(htmlStr))
+        {
+            String pattern = "<img.+?/>|<img.+?</img>";
+            htmlStr = htmlStr.replaceAll(pattern, "").trim();
+            if (TextUtils.isEmpty(htmlStr))
+            {
+                return "[图片]";
+            }
+            return Html.fromHtml(htmlStr).toString();
+        }
+        else
+        {
+            return "";
+        }
+        
+    }
+}

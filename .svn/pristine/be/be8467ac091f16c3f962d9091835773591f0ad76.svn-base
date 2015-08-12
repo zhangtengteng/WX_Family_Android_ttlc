@@ -1,0 +1,137 @@
+package com.xweisoft.wx.family.mina.listener;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.WXApplication;
+import com.xweisoft.wx.family.logic.global.GlobalConstant;
+import com.xweisoft.wx.family.mina.ClientUtil;
+import com.xweisoft.wx.family.ui.message.ChatMessageActivity;
+import com.xweisoft.wx.family.ui.message.NotificationListActivity;
+import com.xweisoft.wx.family.ui.message.WorkActivity;
+import com.xweisoft.wx.family.util.LogX;
+import com.xweisoft.wx.family.util.Util;
+
+/**
+ * 启动通知
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-30]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public final class NotificationReceiver extends BroadcastReceiver
+{
+    
+    @Override
+    public void onReceive(Context context, Intent intent)
+    {
+        try
+        {
+            Intent i = null;
+            String cmd = intent.getStringExtra("cmd");
+            String title = "";
+            String content = intent.getStringExtra(ClientUtil.NOTIFICATION_CONTENT);
+            content = Util.fromHtml(content);
+            int iconRes = R.drawable.ic_launcher;
+            int notifyId = -1;
+            if (TextUtils.isEmpty(cmd))
+            {
+                return;
+            }
+            if (GlobalConstant.NOTIFICATION_MESSAGE_WORK.equals(cmd))
+            {
+                notifyId = ClientUtil.NOTIFICATION_HOMEWORK;
+                title = "班作业";
+                i = new Intent(context, WorkActivity.class);
+            }
+            else if (GlobalConstant.NOTIFICATION_MESSAGE_SYSTEM.equals(cmd))
+            {
+                notifyId = ClientUtil.NOTIFICATION_SYSTEM;
+                title = "系统通知";
+                i = new Intent(context, NotificationListActivity.class);
+                i.putExtra("title", "系统通知");
+            }
+            else if (GlobalConstant.NOTIFICATION_MESSAGE_SCHOOL.equals(cmd))
+            {
+                notifyId = ClientUtil.NOTIFICATION_SCHOOL;
+                title = "学校通知";
+                i = new Intent(context, NotificationListActivity.class);
+                i.putExtra("title", "学校通知");
+            }
+            else if (GlobalConstant.NOTIFICATION_MESSAGE_CLASS.equals(cmd))
+            {
+                notifyId = ClientUtil.NOTIFICATION_CLASS;
+                title = "班级通知";
+                i = new Intent(context, NotificationListActivity.class);
+                i.putExtra("title", "班级通知");
+            }
+            else if (GlobalConstant.IM_MESSAGE_PERSON.equals(cmd))
+            {
+                notifyId = ClientUtil.NOTIFICATION_GROUP_MESSAGE;
+                title = intent.getStringExtra("title");
+                i = new Intent(context, ChatMessageActivity.class);
+                i.putExtra("userId", title);
+                i.putExtra("studentId", intent.getStringExtra("studentId"));
+            }
+            else if (GlobalConstant.IM_MESSAGE_GROUP.equals(cmd))
+            {
+                try
+                {
+                    notifyId = Integer.parseInt(intent.getStringExtra("userId"));
+                    title = intent.getStringExtra("title");
+                    i = new Intent(context, ChatMessageActivity.class);
+                    i.putExtra("group", "group");
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            PendingIntent contentIntent = PendingIntent.getActivity(context,
+                    0,
+                    i,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder ncb = new NotificationCompat.Builder(
+                    context);
+            ncb.setAutoCancel(true);
+            ncb.setContentTitle(title);
+            ncb.setContentText(content);
+            ncb.setContentIntent(contentIntent);
+            ncb.setWhen(System.currentTimeMillis());
+            int defaults = Notification.DEFAULT_LIGHTS;
+            if (WXApplication.getInstance().system_voice)
+            {
+                defaults |= Notification.DEFAULT_SOUND;
+            }
+            if (WXApplication.getInstance().system_vibrate)
+            {
+                if (!(System.currentTimeMillis()
+                        - WXApplication.getInstance().lastTime > 3000))//1秒之内多条通知 声音只响一次
+                {
+                    defaults |= Notification.DEFAULT_VIBRATE;
+                }
+            }
+            ncb.setDefaults(defaults);
+            ncb.setSmallIcon(iconRes);
+            if (notifyId != -1)
+            {
+                WXApplication.getInstance().lastTime = System.currentTimeMillis();
+                nm.notify(notifyId, ncb.build());
+            }
+        }
+        catch (Exception e)
+        {
+            LogX.getInstance().e(Util.makeLogTag(getClass()), e.toString());
+        }
+    }
+}

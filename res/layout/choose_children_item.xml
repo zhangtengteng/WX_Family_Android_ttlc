@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/choose_children_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:background="@drawable/children_header_bg" >
+
+            <ImageView
+                android:id="@+id/choose_children_item_header"
+                android:layout_width="96dip"
+                android:layout_height="96dip"
+                android:layout_centerInParent="true"
+                android:background="@drawable/children_default_header" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/children_header_bg" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/choose_children_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/person_child_one"
+            android:textColor="@color/wx_black_858585"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/choose_children_item_checkbox"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/wx_choose_children_checkbox_selector"
+            android:button="@null" />
+    </LinearLayout>
+
+</LinearLayout>

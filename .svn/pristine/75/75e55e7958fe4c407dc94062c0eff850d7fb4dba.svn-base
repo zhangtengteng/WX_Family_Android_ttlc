@@ -1,0 +1,273 @@
+package com.xweisoft.wx.family.ui.grade.newadapter;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.model.Examination;
+import com.xweisoft.wx.family.logic.model.ExaminationList;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.util.Util;
+
+public class NewGradeCommentListAdapter extends BaseAdapter
+{
+    
+    /**
+     * 考试集合
+     */
+    private ArrayList<ExaminationList> mList=new ArrayList<ExaminationList>();
+    CharSequence subSequence;
+    
+    private SimpleDateFormat sf = null;
+    
+    
+  
+
+    
+    /**
+     * 上下文
+     */
+    private Context mContext;
+    
+    /**
+     * 布局加载
+     */
+    private LayoutInflater mInflater;
+    
+    
+  
+    
+    
+    class ViewGroupHolder
+    {
+        /**
+         * 时间
+         */
+        TextView mTimeText;
+        
+        /**
+         * 名称
+         */
+        TextView mNameText;
+        
+        /**
+         * 时间
+         */
+        TextView mtime;
+        
+        
+        /***
+         * 学期的颜色的标示
+         * */
+        
+        ImageView  biaoshi;
+    }
+    
+    
+    @Override
+    public int getCount()
+    {
+        return mList.size();
+    }
+    
+    public NewGradeCommentListAdapter(Context context,ArrayList<ExaminationList> mList)
+    {
+        super();
+        this.mContext=context;
+        this.mList = mList;
+        mInflater = LayoutInflater.from(context);
+    }
+    
+    
+    public void setList(ArrayList<ExaminationList> list)
+    {
+        if (!ListUtil.isEmpty(list))
+        {
+            this.mList = list;
+            notifyDataSetChanged();
+        }else {
+            
+            Toast.makeText(mContext, "返回数据为空！！！", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    
+//    
+//    public  void setDate(ArrayList<ExamItem> list){
+//        
+//        
+//        if (!ListUtil.isEmpty(list))
+//          {
+//            
+//            list=new ArrayList<ExamItem>();
+//            ExamItem  m=new ExamItem();
+//            m.examinationId="hello";
+//            ExamItem  m1=new ExamItem();
+//            m.examinationId="hello2";
+//            list.add(m);
+//            list.add(m1);
+//              this.mList = list;
+//             // notifyDataSetChanged();
+//          }else {
+//              
+//              Toast.makeText(mContext, "返回数据为空！！！", Toast.LENGTH_SHORT).show();
+//          }
+//        
+//    }
+    
+    @Override
+    public Object getItem(int position)
+    {
+        // TODO Auto-generated method stub
+        return position;
+    }
+    
+    @Override
+    public long getItemId(int position)
+    {
+        // TODO Auto-generated method stub
+        return position;
+    }
+    
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        
+        ViewGroupHolder holder = null;
+        
+        if (null == convertView)
+        {
+            holder = new ViewGroupHolder();
+            convertView = mInflater.inflate(R.layout.grade_count_expand_group_item,
+                    null);
+            holder.biaoshi = (ImageView) convertView.findViewById(R.id.IMG_color);
+            
+           
+            holder.mTimeText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_time);
+            holder.mNameText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_name);
+            holder.mtime = (TextView) convertView.findViewById(R.id.grade_count_time);
+            
+            convertView.setTag(holder);
+        }else {
+            
+            holder = (ViewGroupHolder) convertView.getTag();
+        }
+        
+        if (null == mList)
+        {
+            return convertView;
+        }
+        ExaminationList item = mList.get(position);
+        if (null != item)
+        {
+            
+            if (item.examinationName.equals("期中考试"))
+            {
+                holder.mNameText.setText(Util.checkNull(item.examinationName));
+                Resources resources = mContext.getResources();   
+                Drawable btnDrawable = resources.getDrawable(R.drawable.qizhong);  
+                holder.biaoshi.setBackgroundDrawable(btnDrawable);
+                
+            }else if(item.examinationName.equals("期末考试")){
+                
+                holder.mNameText.setText(Util.checkNull(item.examinationName));
+                
+                Resources resources = mContext.getResources();   
+                Drawable btnDrawable = resources.getDrawable(R.drawable.qimo);  
+                holder.biaoshi.setBackgroundDrawable(btnDrawable);
+            }else{
+                
+                holder.mNameText.setText(Util.checkNull(item.examinationName));
+                Resources resources = mContext.getResources();   
+                Drawable btnDrawable = resources.getDrawable(R.drawable.month);  
+                holder.biaoshi.setBackgroundDrawable(btnDrawable);
+            }
+            
+            
+            String endTime = getDateToString(item.endTime);
+            String startTime = getDateToString(item.startTime);
+            
+            holder.mtime.setText(Util.checkNull(startTime)+"-"+Util.checkNull(endTime));
+            String currTime = item.semester;
+            String prevTime = (position - 1) >= 0
+                    && null != mList.get(position - 1) ? mList.get(position - 1).semester
+                    : "";
+                    int year =item.schoolYear-1;
+            if (!currTime.equals(prevTime))//当前学期与上一个学期比较，不同时显示布局，否则隐藏
+            {
+                if ("1".equals(item.semester))//1 上学期 2 下学期
+                {
+                   
+                   // btnchange.setText(score+"-"+Util.checkNull(resp.schoolYear+"学年 ")+Util.checkNull(resp.gradeName));
+                    
+                    holder.mTimeText.setText(year+"-"+item.schoolYear + "上学期");
+                    holder.mTimeText.setTextColor(mContext.getResources()
+                            .getColor(R.color.green_2EAF76_color)); //blue_0379FF_color  
+                }
+                else if ("2".equals(item.semester))
+                {
+                    holder.mTimeText.setText(year+"-"+item.schoolYear + "下学期");
+                    holder.mTimeText.setTextColor(mContext.getResources()
+                            .getColor(R.color.green_2EAF76_color));
+                }
+                holder.mTimeText.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.mTimeText.setVisibility(View.GONE);
+            }
+        }
+      
+    
+ 
+//        
+//        ViewGroupHolder holder = null; 
+//        convertView = mInflater.inflate(R.layout.grade_count_expand_group_item,
+//              null);
+//      
+//      holder.mTimeText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_time);
+//      holder.mNameText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_name);
+//      holder.mtime = (TextView) convertView.findViewById(R.id.grade_count_time);
+//        
+//      holder.mNameText.setText(Util.checkNull("期中考试"));
+//    holder.mtime.setText(Util.checkNull("7.1-7.3"));
+        
+        return convertView;
+    }
+    
+    
+    /*时间戳转换成字符窜*/
+    public String getDateToString(long time) {
+        Date d = new Date(time);
+        
+        sf = new SimpleDateFormat("MM月dd日");
+        String format = sf.format(d);
+      
+        if (format.subSequence(0, 1).equals("0"))
+        {
+            
+            subSequence = format.subSequence(1, format.length());
+         
+            
+        }else {
+            
+             subSequence = format.subSequence(0, format.length());
+        }
+        
+        
+        return  (String) subSequence;  //07月25日  sf.format(d)
+    }
+    
+}

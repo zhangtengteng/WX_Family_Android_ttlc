@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_27282a_color"
+    android:orientation="vertical" >
+
+    <com.xweisoft.wx.family.widget.ImageGallery
+        android:id="@+id/shop_images_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:spacing="5dip" />
+
+    <include
+        android:id="@+id/shop_images_title_layout"
+        android:layout_alignParentTop="true"
+        layout="@layout/wx_common_title" />
+
+    <LinearLayout
+        android:id="@+id/shop_images_bottom_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="15dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dip"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+</RelativeLayout>

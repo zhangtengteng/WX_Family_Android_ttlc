@@ -1,0 +1,241 @@
+package com.xweisoft.wx.family.ui.pc;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.WXApplication;
+import com.xweisoft.wx.family.logic.global.GlobalConstant;
+import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+import com.xweisoft.wx.family.logic.model.ChildrenItem;
+import com.xweisoft.wx.family.logic.model.UserItem;
+import com.xweisoft.wx.family.logic.model.response.ChooseChildrenResp;
+import com.xweisoft.wx.family.logic.model.response.ContactResp;
+import com.xweisoft.wx.family.service.database.ContactsDBHelper;
+import com.xweisoft.wx.family.ui.BaseActivity;
+import com.xweisoft.wx.family.ui.WXMainFragmentActivity;
+import com.xweisoft.wx.family.ui.pc.adapter.ChooseChilrenAdapter;
+import com.xweisoft.wx.family.util.CommonTitleUtil;
+import com.xweisoft.wx.family.util.HttpRequestUtil;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.util.LoginUtil;
+import com.xweisoft.wx.family.util.ProgressUtil;
+import com.xweisoft.wx.family.util.SharedPreferencesUtil;
+import com.xweisoft.wx.family.widget.HorizontalListView;
+import com.xweisoft.wx.family.widget.NetHandler;
+
+/**
+ * 选择孩子界面
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-18]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class ChooseChildrenActivity extends BaseActivity
+{
+    
+    private TextView mSubmitText;
+    
+    private HorizontalListView mListView;
+    
+    private ChooseChilrenAdapter mAdapter;
+    
+    private ArrayList<ChildrenItem> mList = new ArrayList<ChildrenItem>();
+    
+    private UserItem item;
+    
+    private ChildrenItem childrenItem;
+    
+    /**
+     * 通讯录处理
+     */
+    private Handler contactHandler = new NetHandler(false)
+    {
+        
+        @Override
+        public void onResponse()
+        {
+            super.onResponse();
+            ProgressUtil.dismissProgressDialog();
+        }
+        
+        @Override
+        public void onSuccess(String errMsg, Message msg)
+        {
+            ContactResp resp = null;
+            if (null != msg.obj && msg.obj instanceof ContactResp)
+            {
+                resp = (ContactResp) msg.obj;
+                ContactsDBHelper helper = new ContactsDBHelper(mContext,
+                        LoginUtil.getUserId(mContext));
+                if (null != helper)
+                {
+                    String classinfoId = LoginUtil.getClassinfoId(mContext);
+                    if (!ListUtil.isEmpty(resp.teacherContacts)
+                            || !ListUtil.isEmpty(resp.parentContacts))
+                    {
+                        helper.deleteContacts(classinfoId);
+                    }
+                    if (!ListUtil.isEmpty(resp.teacherContacts))
+                    {
+                        helper.insertList(resp.teacherContacts,
+                                "1",
+                                classinfoId);
+                    }
+                    if (!ListUtil.isEmpty(resp.parentContacts))
+                    {
+                        helper.insertList(resp.parentContacts, "2", classinfoId);
+                    }
+                }
+                Intent intent = new Intent(mContext,
+                        WXMainFragmentActivity.class);
+                intent.putExtra("flag", false);
+                startActivity(intent);
+                finish();
+            }
+        }
+        
+        @Override
+        public void onFailed(String errCode, String errMsg, Message msg)
+        {
+            showToast("服务器休息了，请稍后重试");
+        }
+    };
+    
+    private Handler handler = new NetHandler(true)
+    {
+        
+        @Override
+        public void onResponse()
+        {
+            super.onResponse();
+            mSubmitText.setEnabled(true);
+        }
+        
+        @Override
+        public void onSuccess(String errMsg, Message msg)
+        {
+            ChooseChildrenResp resp = null;
+            if (null != msg.obj && msg.obj instanceof ChooseChildrenResp)
+            {
+                resp = (ChooseChildrenResp) msg.obj;
+                if (null != childrenItem)
+                {
+                    if (null != WXApplication.getInstance().loginUserItem)
+                    {
+                        childrenItem.classinfoId = resp.classinfoId;
+                        childrenItem.classinfoName = resp.classinfoName;
+                        WXApplication.getInstance().groupId = resp.groupId;
+                        WXApplication.getInstance().selectedItem = childrenItem;
+                    }
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            GlobalConstant.UserInfoPreference.CHILDREN,
+                            childrenItem.studentId);
+                    WXApplication.getInstance().selectStudentId = childrenItem.studentId;
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            GlobalConstant.UserInfoPreference.CLASSINFOID,
+                            childrenItem.classinfoId);
+                }
+                sendContactRequest();
+            }
+        }
+        
+        @Override
+        public void onFailed(String errCode, String errMsg, Message msg)
+        {
+            showToast(errMsg);
+        }
+    };
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(getActivityLayout());
+        initViews();
+        bindListener();
+    }
+    
+    @Override
+    public void initViews()
+    {
+        CommonTitleUtil.initCommonTitle(this, "选择孩子", null, false, true);
+        mSubmitText = (TextView) findViewById(R.id.choose_children_submit);
+        mListView = (HorizontalListView) findViewById(R.id.choose_children_horizontal_listview);
+        item = WXApplication.getInstance().loginUserItem;
+        if (!ListUtil.isEmpty(item.children))
+        {
+            mList.addAll(item.children);
+        }
+        mAdapter = new ChooseChilrenAdapter(mContext);
+        mAdapter.setList(mList);
+        mListView.setAdapter(mAdapter);
+    }
+    
+    @Override
+    public void bindListener()
+    {
+        mSubmitText.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View v)
+            {
+                childrenItem = mAdapter.getSelection();
+                if (null != childrenItem)
+                {
+                    ProgressUtil.showProgressDialog(mContext, "请求中...");
+                    mSubmitText.setEnabled(false);
+                    Map<String, String> param = HttpRequestUtil.getCommonParams("");
+                    param.put("studentId", childrenItem.studentId);
+                    mSubmitText.setEnabled(false);
+                    HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+                            HttpAddressProperties.CHOOSE_CHILDREN,
+                            param,
+                            ChooseChildrenResp.class,
+                            handler);
+                }
+                else
+                {
+                    showToast("请选择孩子");
+                }
+            }
+        });
+    }
+    
+    @Override
+    public int getActivityLayout()
+    {
+        return R.layout.wx_choose_children_activity;
+    }
+    
+    /**
+     * 同步通讯录
+     * <一句话功能简述>
+     * <功能详细描述> [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    private void sendContactRequest()
+    {
+        Map<String, String> params = HttpRequestUtil.getCommonParams(HttpAddressProperties.CLASS_CONTACTS);
+        HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+                HttpAddressProperties.SERVICE_URL,
+                params,
+                ContactResp.class,
+                contactHandler);
+    }
+}

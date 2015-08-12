@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/wx_transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/wx_left_grean_bg"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/apply_select_area_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/wx_transparent"
+                android:cacheColorHint="@color/transparent_color"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@color/transparent_color"
+                android:scrollbars="none" >
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dip"
+            android:background="@drawable/common_white_bg"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/apply_select_school_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/wx_transparent"
+                android:cacheColorHint="@color/transparent_color"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@color/transparent_color"
+                android:scrollbars="none" >
+            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

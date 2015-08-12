@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_green_color">#2dcf27</color>
+    <!-- 根布局背景颜色 -->
+
+
+    <!-- 主标题颜色 -->
+    <color name="common_title_454545_color">#454545</color>
+
+    <!-- 副标题颜色 -->
+    <color name="common_content_a7a7a7_color">#a7a7a7</color>
+
+    <!-- 灰色字体 -->
+    <color name="ysh_A9AAAB_color">#A9AAAB</color>
+    <color name="ysh_8C8C8C_color">#8C8C8C</color>
+    <color name="ysh_F2F2F2_color">#F2F2F2</color>
+    <color name="ysh_E5E9EC_color">#E5E9EC</color>
+    <color name="ysh_757575_color">#757575</color>
+    <color name="ysh_update_c1c1c1_color">#c1c1c1</color>
+    <color name="ysh_business_979797_color">#979797</color>
+    <color name="ysh_business_535353_color">#535353</color>
+    <color name="ysh_business_525252_color">#525252</color>
+    <color name="ysh_business_d0d0d0_color">#d0d0d0</color>
+    <color name="ysh_business_ff9b0f_color">#ff9b0f</color>
+    <color name="ysh_business_818181_color">#818181</color>
+    <color name="ysh_press_efefef_color">#efefef</color>
+    <color name="ysh_secondhand_fcfcfc_color">#fcfcfc</color>
+    <color name="ysh_secondhand_868686_color">#868686</color>
+    <color name="green_35C285">#35C285</color>
+
+    <!-- 订单编号背景 -->
+    <color name="ysh_order_e5e5e5_color">#e5e5e5</color>
+
+    <!-- 订单：已完成 -->
+    <color name="ysh_order_ff6d6d_color">#ff6d6d</color>
+
+    <!-- 订单：已受理 -->
+    <color name="ysh_order_febf34_color">#febf34</color>
+
+    <!-- 订单：已关闭 -->
+    <color name="ysh_order_c1b9b9_color">#c1b9b9</color>
+
+    <!-- 订单标题字体颜色 -->
+    <color name="ysh_order_5f5f5f_text_color">#5f5f5f</color>
+    <color name="ysh_evl_0fd2e8_text_color">#0fd2e8</color>
+    <color name="ysh_red_ff3535_color">#ff3535</color>
+    <color name="ysh_yellow_ffc424_color">#ffc424</color>
+    <color name="ysh_gray_7f7f7f_color">#7f7f7f</color>
+    <color name="ysh_gray_e6e6e6_color">#e6e6e6</color>
+    <color name="ysh_gray_a8a8a8_color">#a8a8a8</color>
+    <color name="ysh_blue_0ed2e8_color">#0ed2e8</color>
+    <color name="ysh_gray_d3d3d3_color">#d3d3d3</color>
+
+    <!-- 黄色按钮 -->
+    <color name="ysh_button_yellow_normal">#ffc424</color>
+    <color name="ysh_button_yellow_press">#f5b403</color>
+
+    <!-- 红色按钮 -->
+    <color name="ysh_button_red_normal">#ff6d6d</color>
+    <color name="ysh_button_red_press">#e05353</color>
+
+    <!-- 黑色系列 -->
+    <color name="black_color">#000000</color>
+    <color name="black_858585_color">#858585</color>
+    <color name="black_3b3b3b_color">#3b3b3b</color>
+    <color name="black_606060_color">#606060</color>
+    <color name="black_c7c7c7_color">#c7c7c7</color>
+    <color name="black_dddddd_color">#dddddd</color>
+    <color name="black_cccccc_color">#cccccc</color>
+    <color name="black_666666_color">#666666</color>
+    <color name="black_333333_color">#333333</color>
+    <color name="black_999999_color">#999999</color>
+    <color name="black_a0a0a0_color">#a0a0a0</color>
+    <color name="black_b3b3b3_color">#b3b3b3</color>
+    <color name="black_27282a_color">#27282a</color>
+    <color name="black_e5e5e5_color">#e5e5e5</color>
+
+    <!-- 蓝色系列 -->
+    <color name="blue_0379FF_color">#0379FF</color>
+    <color name="blue_0071b5_color">#0071b5</color>
+    <color name="blue_42a3bb_color">#42a3bb</color>
+    <color name="blue_0370ae_color">#0370ae</color>
+    <color name="blue_033c62_color">#033c62</color>
+    <color name="blue_0075b8_color">#0075b8</color>
+    <color name="blue_065590_color">#065590</color>
+    <color name="blue_00c1ec_color">#00c1ec</color>
+    <color name="blue_109fdb_color">#109fdb</color>
+    <color name="blue_7dcbec_color">#7dcbec</color>
+
+    <!-- 绿色系列 -->
+    <color name="green_54D092_color">#54D092</color>
+    <color name="green_3CC389_color">#3CC389</color>
+    <color name="green_2EAF76_color">#2EAF76</color>
+    <color name="green_34C385_color">#34C385</color>
+    <color name="green_72D0A4_color">#72D0A4</color>
+    <color name="green_08a801_color">#08a801</color>
+    <color name="green_57b03c_color">#57b03c</color>
+    <color name="green_35C384_color">#57b03c</color>
+    <color name="green_3BC488_color">#3BC488</color>
+    <color name="green_35C486_color">#35C486</color>
+    <!-- 白色系列 -->
+    <color name="white_color">#ffffff</color>
+
+    <!-- 紫色系列 -->
+    <color name="violet_color">#9964A5</color>
+    <color name="violet_8B6BBE_color">#8B6BBE</color>
+    <color name="violet_color_8C509A">#8C509A</color>
+
+    <!-- 橙色系列 -->
+    <color name="yellow_ffa500_color">#ffa500</color>
+    <color name="yellow_f78f2a_color">#f78f2a</color>
+    <color name="yellow_fe8a00_color">#fe8a00</color>
+
+    <!-- 红色系列 -->
+    <color name="red_color">#ff0000</color>
+    <color name="red_e31111_color">#e31111</color>
+    <color name="red_ff4b4b_color">#ff4b4b</color>
+
+    <!-- 灰色系列 -->
+    <color name="gray_686868_color">#686868</color>
+    <color name="gray_D2D2D2_color">#D2D2D2</color>
+    <color name="gray_a0a0a0_color">#a0a0a0</color>
+    <color name="gray_f8f8f8_color">#f8f8f8</color>
+    <color name="gray_dbdbdb_color">#dbdbdb</color>
+
+    <!-- 透明色 -->
+    <color name="transparent_color">#00000000</color>
+
+    <!-- 框架底部字体颜色 -->
+    <color name="ysh_tab_font_normal">#767676</color>
+    <color name="ysh_tab_font_selected">#2cdbf4</color>
+
+    <!-- 分类子类别 字体蓝色 #0FD1EA -->
+    <color name="ysh_kinds_font_blue">#0fd2eb</color>
+
+    <!-- 分类子类别列表和 类别线 -->
+    <color name="ysh_kinds_divider">#cacaca</color>
+    <color name="calendar_active_month_bg">#fff5f7f9</color>
+    <color name="calendar_bg">#ffffffff</color>
+    <color name="calendar_divider">#ffbababa</color>
+    <color name="calendar_inactive_month_bg">#ffd7d9db</color>
+    <color name="calendar_selected_day_bg">#ff379bff</color>
+    <color name="calendar_highlighted_day_bg">#ccffcc</color>
+    <color name="calendar_selected_range_bg">#ff96caff</color>
+    <color name="calendar_text_inactive">#40778088</color>
+    <color name="calendar_text_active">#ff778088</color>
+    <color name="calendar_text_selected">#ffffffff</color>
+    <color name="calendar_text_unselectable">#7f778088</color>
+    <color name="abc_search_url_text_normal">#ff7fa87f</color>
+
+    <item name="abc_search_url_text_selected" type="color">@*android:color/black</item>
+    <item name="abc_search_url_text_pressed" type="color">@*android:color/black</item>
+    <item name="green_btn_color_disable" type="color">@color/ccp_green_alpha</item>
+
+    <color name="list_divider">#ffdadada</color>
+    <color name="green_btn_color_pressed">#ff298409</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#ff9a9b9c</color>
+    <color name="black">#ff000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="normal_text_color">#ff353535</color>
+    <color name="light_text_color">#ffd7d7d7</color>
+    <color name="background_dark">#ff000000</color>
+    <color name="bright_foreground_light">@color/background_dark</color>
+    <color name="bright_foreground_light_disabled">#80000000</color>
+    <color name="actionbar_selector_color">#4d000000</color>
+    <color name="actionbar_bg_color">#ff2e3132</color>
+    <color name="list_devider_color">#fff2f2f2</color>
+    <color name="progress_horizontal_green">#ff45c01a</color>
+    <color name="hint_text_color">#ff999999</color>
+    <color name="actionbar_devider_color">#ff212324</color>
+    <color name="white_color_disable">#7fffffff</color>
+    <color name="dialog_transparent">#bf000000</color>
+    <color name="ccp_green">#ff00B486</color>
+    <color name="launcher_tab_text_color">#ff636363</color>
+    <color name="launcher_tab_text_color_press">#ffc9c9c9</color>
+    <color name="ccp_green_alpha">#7f00B486</color>
+    <color name="navpage">#ffffffff</color>
+    <color name="last_msg_tv_color">#ffaaaaaa</color>
+    <color name="lightgrey">#ff888888</color>
+    <color name="footer_text_color">#ff7f7f7f</color>
+    <color name="chatroom_user_displayname_color">#A9A9A9</color>
+    <color name="hint_text_color_dark_bg">#ff484c4c</color>
+    <color name="form_hint_text_color">#ffdddddd</color>
+    <color name="ccp_attentoin_color">#CCCCCC</color>
+    <color name="text_disabled">#ffa8a8a8</color>
+    <color name="common_popup_menu_list_divider">#ff191919</color>
+    <color name="edit_save_btn_color_disable">#ffa8c6ed</color>
+    <color name="edit_save_btn_color_click">#ffffffff</color>
+    <color name="small_line_color">#26000000</color>
+    <color name="action_bar_tittle_color">#ffcfcfcf</color>
+    <color name="red_btn_color_normal">#ffff5454</color>
+    <color name="red_btn_color_pressed">#ffd24242</color>
+    <color name="red_btn_color_disable">#7fff5454</color>
+    <color name="dialog_background">#fffbf6f2</color>
+    <color name="text_content">#ffa19d94</color>
+    <color name="dialog_btn_press">#ffece5df</color>
+    <color name="dialog_divider">#ffe8e0da</color>
+    <color name="dialog_btn_normal">#fffbf6f2</color>
+    <color name="text_desc">#ffbebbb4</color>
+    <color name="text_title">#ff5f5f5f</color>
+    <color name="blue">#ff169aff</color>
+    <color name="album_ui_bg">#ff191919</color>
+    <color name="bottom_notepad_panel_bg">#FFF4F4F4</color>
+    <color name="first_001">#000000</color>
+    <color name="first_002">#A0808080</color>
+    <color name="first_003">#55DCDCDC</color>
+
+    <item name="menu_pressed_color" type="color">@color/small_line_color</item>
+
+    <!-- 问学项目 颜色 -->
+    <color name="wx_black_3c3c3c">#3c3c3c</color>
+    <color name="wx_black_858585">#858585</color>
+    <color name="wx_gray_979797">#979797</color>
+    <color name="wx_gray_757575">#757575</color>
+    <color name="wx_gray_e5eaeb">#e5eaeb</color>
+    <color name="wx_green_35c384">#35c384</color>
+
+</resources>

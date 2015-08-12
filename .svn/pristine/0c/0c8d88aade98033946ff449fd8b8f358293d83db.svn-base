@@ -1,0 +1,295 @@
+package com.xweisoft.wx.family.ui.grade.adapter;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.model.ExamItem;
+import com.xweisoft.wx.family.logic.model.SubjectItem;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.util.Util;
+
+/**
+ * 成绩统计expandListAdapter
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-19]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class HistoryCountScoreExpendListAdapter extends
+        BaseExpandableListAdapter
+{
+    
+    /**
+     * 考试集合
+     */
+    private ArrayList<ExamItem> mList;
+    
+    /**
+     * 布局加载
+     */
+    private LayoutInflater mInflater;
+    
+    /**
+     * 上下文
+     */
+    private Context mContext;
+    
+    /**
+     * 子单元
+     * <一句话功能简述>
+     * <功能详细描述>
+     * 
+     * @author  poorgod
+     * @version  [版本号, 2015-5-13]
+     * @see  [相关类/方法]
+     * @since  [产品/模块版本]
+     */
+    class ViewChildrenHolder
+    {
+        /**
+         * 学科
+         */
+        private TextView mNameText;
+        
+        /**
+         * 学科成绩
+         */
+        private TextView mScoreText;
+    }
+    
+    /**
+     * 父单元
+     * <一句话功能简述>
+     * <功能详细描述>
+     * 
+     * @author  poorgod
+     * @version  [版本号, 2015-5-13]
+     * @see  [相关类/方法]
+     * @since  [产品/模块版本]
+     */
+    class ViewGroupHolder
+    {
+        /**
+         * 时间
+         */
+        TextView mTimeText;
+        
+        /**
+         * 名称
+         */
+        TextView mNameText;
+        
+        /**
+         * 箭头
+         */
+        ImageView mArrowImage;
+    }
+    
+    /**
+     * 构造方法
+     */
+    public HistoryCountScoreExpendListAdapter(Context context,
+            ArrayList<ExamItem> list)
+    {
+        this.mContext = context;
+        this.mList = list;
+        mInflater = LayoutInflater.from(context);
+    }
+    
+    /**
+     * 设置数据源并更新适配器
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param list [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public void setList(ArrayList<ExamItem> list)
+    {
+        if (!ListUtil.isEmpty(list))
+        {
+            this.mList = list;
+            notifyDataSetChanged();
+        }
+    }
+    
+    @Override
+    public int getGroupCount()
+    {
+        return mList == null ? 0 : mList.size();
+    }
+    
+    @Override
+    public int getChildrenCount(int groupPosition)
+    {
+        return mList == null || mList.get(groupPosition) == null
+                || null == mList.get(groupPosition).list ? 0
+                : mList.get(groupPosition).list.size();
+    }
+    
+    @Override
+    public Object getGroup(int groupPosition)
+    {
+        return mList == null ? null : mList.get(groupPosition);
+    }
+    
+    @Override
+    public Object getChild(int groupPosition, int childPosition)
+    {
+        return mList == null || mList.get(groupPosition) == null
+                || mList.get(groupPosition).list == null ? null
+                : mList.get(groupPosition).list.get(childPosition);
+    }
+    
+    @Override
+    public long getGroupId(int groupPosition)
+    {
+        return groupPosition;
+    }
+    
+    @Override
+    public long getChildId(int groupPosition, int childPosition)
+    {
+        return childPosition;
+    }
+    
+    @Override
+    public boolean hasStableIds()
+    {
+        return false;
+    }
+    
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+            View convertView, ViewGroup parent)
+    {
+        ViewGroupHolder holder = null;
+        if (null == convertView)
+        {
+            holder = new ViewGroupHolder();
+            convertView = mInflater.inflate(R.layout.grade_count_expand_group_item,
+                    null);
+            holder.mTimeText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_time);
+            holder.mNameText = (TextView) convertView.findViewById(R.id.grade_count_expand_group_item_name);
+            //  holder.mArrowImage = (ImageView) convertView.findViewById(R.id.grade_count_expand_group_item_image);
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewGroupHolder) convertView.getTag();
+        }
+        if (null == mList)
+        {
+            return convertView;
+        }
+        ExamItem item = mList.get(groupPosition);
+        if (null != item)
+        {
+            holder.mNameText.setText(Util.checkNull(item.examinationName));
+            String currTime = item.semester;
+            String prevTime = (groupPosition - 1) >= 0
+                    && null != mList.get(groupPosition - 1) ? mList.get(groupPosition - 1).semester
+                    : "";
+            if (!currTime.equals(prevTime))//当前学期与上一个学期比较，不同时显示布局，否则隐藏
+            {
+                if ("1".equals(item.semester))//1 上学期 2 下学期
+                {
+                    holder.mTimeText.setText(item.schoolYear + "年上学期");
+                    holder.mTimeText.setTextColor(mContext.getResources()
+                            .getColor(R.color.green_08a801_color));
+                }
+                else if ("2".equals(item.semester))
+                {
+                    holder.mTimeText.setText(item.schoolYear + "年下学期");
+                    holder.mTimeText.setTextColor(mContext.getResources()
+                            .getColor(R.color.violet_8B6BBE_color));
+                }
+                holder.mTimeText.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.mTimeText.setVisibility(View.GONE);
+            }
+        }
+        if (isExpanded)
+        {
+            holder.mArrowImage.setImageResource(R.drawable.wx_arrow_right);
+        }
+        else
+        {
+            holder.mArrowImage.setImageResource(R.drawable.wx_arrow_right);
+        }
+        return convertView;
+    }
+    
+    @Override
+    public View getChildView(int groupPosition, int childPosition,
+            boolean isLastChild, View convertView, ViewGroup parent)
+    {
+        ViewChildrenHolder holder = null;
+        if (null == convertView)
+        {
+            holder = new ViewChildrenHolder();
+            convertView = mInflater.inflate(R.layout.grade_count_expand_children_item,
+                    null);
+            holder.mScoreText = (TextView) convertView.findViewById(R.id.grade_count_expand_children_item_socre);
+            holder.mNameText = (TextView) convertView.findViewById(R.id.grade_count_expand_children_item_name);
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewChildrenHolder) convertView.getTag();
+        }
+        if (null == mList || null == mList.get(groupPosition)
+                || null == mList.get(groupPosition).list)
+        {
+            return convertView;
+        }
+        SubjectItem item = mList.get(groupPosition).list.get(childPosition);
+        if (null != item)
+        {
+            holder.mNameText.setText(Util.checkNull(item.subjectName));
+            // holder.mScoreText.setText(Util.formatScore(item.score));
+            double score = 0.0;
+            if (item.score > 0)
+            {
+                score = item.score;
+                holder.mScoreText.setText(score + "分");
+            }
+            else
+            {
+                if (item.scoreLevel != null)
+                {
+                    holder.mScoreText.setText(Util.checkNull(item.scoreLevel));
+                }
+                else
+                {
+                    
+                    holder.mScoreText.setText(score + "");
+                }
+            }
+            
+        }
+        return convertView;
+    }
+    
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition)
+    {
+        return false;
+    }
+    
+}

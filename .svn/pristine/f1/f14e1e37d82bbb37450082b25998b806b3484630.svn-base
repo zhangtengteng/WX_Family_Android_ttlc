@@ -1,0 +1,165 @@
+package com.xweisoft.wx.family.ui.grade.newview;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+import com.xweisoft.wx.family.logic.model.SubjectItem;
+import com.xweisoft.wx.family.logic.model.SubjectScore;
+import com.xweisoft.wx.family.logic.model.response.ExaminaResp;
+import com.xweisoft.wx.family.logic.model.response.GradeCountExamResp;
+import com.xweisoft.wx.family.logic.model.response.SubjectResp;
+import com.xweisoft.wx.family.ui.BaseActivity;
+import com.xweisoft.wx.family.ui.grade.newadapter.HistoryCommentMessListAdapter;
+import com.xweisoft.wx.family.util.CommonTitleUtil;
+import com.xweisoft.wx.family.util.HttpRequestUtil;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.widget.NetHandler;
+
+public class NewCommentScoreAndMess extends BaseActivity
+{
+    
+    ListView lv;
+    
+    /**
+     * 上下文
+     */
+    private Context mContext;
+    
+     String examinationId1;
+    
+    /**
+     * 自定义 历史评语ExpandableListAdapter
+     */
+    
+    private HistoryCommentMessListAdapter mAdapter;
+    
+    /**
+     * 成绩集合
+     * */
+    ArrayList<SubjectScore> subjectScores = new ArrayList<SubjectScore>();
+    
+    ImageView back;
+    
+    TextView title;
+    
+    // myAdapter m = new myAdapter();
+    /**
+     * 显示科目的滑动控件
+     * */
+    int i = 0;
+    
+    //grade_comment_expand_children_item
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(getActivityLayout());
+        initViews();
+        sendRequest();
+    }
+    
+    
+    
+    /**
+     * 组集合请求响应处理
+     */
+        private Handler handler = new NetHandler(false) {
+    
+            @Override
+            public void onSuccess(String errMsg, Message msg) {
+                SubjectResp resp = null;
+                if (null != msg.obj && msg.obj instanceof SubjectResp) {
+                    resp = (SubjectResp) msg.obj;
+                    if (!ListUtil.isEmpty(resp.subjectScores)) {
+                        subjectScores.clear();
+                        subjectScores.addAll(resp.subjectScores);
+                        mAdapter.setList(subjectScores);
+                       
+                    }
+                }
+            }
+            @Override
+            public void onFailed(String errCode, String errMsg, Message msg) {
+                showToast(errMsg);
+            }
+        };
+    
+    
+    /**
+     * 发送接口请求 <一句话功能简述> <功能详细描述> [参数说明]
+     * 各科成绩列表
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+        public void sendRequest() {
+            Map<String, String> param = HttpRequestUtil
+                    .getCommonParams("subjectScores");
+            
+            param.put("examinationId",examinationId1);
+            HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+                    HttpAddressProperties.SERVICE_URL, param,
+                    SubjectResp.class, handler);
+        }
+        
+        
+
+//    private void innitData()
+//    {
+//        SubjectItem s = new SubjectItem();
+//        s.score = 17.5;
+//        s.scoreLevel = "c";
+//        s.teacherComments = "考的不错";
+//        SubjectItem s1 = new SubjectItem();
+//        s1.score = 17.5;
+//        s1.scoreLevel = "c";
+//        s1.teacherComments = "考的不错";
+//        SubjectItem s2 = new SubjectItem();
+//        s2.score = 17.5;
+//        s2.scoreLevel = "c";
+//        s2.teacherComments = "考的不错";
+//        histroyscorelist.add(s);
+//        histroyscorelist.add(s1);
+//        histroyscorelist.add(s2);
+//        
+//    }
+    
+    @Override
+    public void initViews()
+    {
+        CommonTitleUtil.initCommonTitle(this, "成绩查询", null, false, true);
+        mContext = NewCommentScoreAndMess.this;
+        lv = (ListView) findViewById(R.id.lv_score_mess);
+         examinationId1 = getIntent().getStringExtra("examinationId");
+        mAdapter = new HistoryCommentMessListAdapter(
+                NewCommentScoreAndMess.this, subjectScores);
+        lv.setAdapter(mAdapter);
+        
+    }
+    
+    @Override
+    public void bindListener()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public int getActivityLayout()
+    {
+        // TODO Auto-generated method stub
+        return R.layout.score_mess_layout;
+    }
+    
+}

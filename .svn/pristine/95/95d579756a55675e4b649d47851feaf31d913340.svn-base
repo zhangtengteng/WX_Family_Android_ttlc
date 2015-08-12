@@ -1,0 +1,156 @@
+package com.xweisoft.wx.family.ui.grade;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.ui.BaseFragment;
+import com.xweisoft.wx.family.ui.adapter.TabPagerAdapter;
+import com.xweisoft.wx.family.ui.grade.newview.NewGradeCommentPageView;
+import com.xweisoft.wx.family.util.CommonTitleUtil;
+import com.xweisoft.wx.family.widget.TabPageIndicator;
+
+/**
+ * 成绩查看
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-11]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class GradeFragment extends BaseFragment
+{
+    
+    private String[] titleArray = { "成绩统计" };
+    
+    /**
+     * viewPager
+     */
+    private ViewPager mViewPager;
+    
+    /**
+     * 页卡集合
+     */
+    private List<View> mViews;
+    
+    /**
+     * 页卡标题
+     */
+    private TabPageIndicator mTabPageIndicator;
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState)
+    {
+        mLayouView = inflater.inflate(R.layout.wx_grade_activity,
+                container,
+                false);
+        initViews();
+        bindListener();
+        initViewPager();
+        return mLayouView;
+    }
+    
+    @Override
+    public void initViews()
+    {
+        CommonTitleUtil.initCommonTitle(mLayouView, "成绩", null, true, false);
+        mViewPager = (ViewPager) mLayouView.findViewById(R.id.grade_viewpager);
+        mTabPageIndicator = (TabPageIndicator) mLayouView.findViewById(R.id.grade_title_indicator);
+    }
+    
+    @Override
+    public void bindListener()
+    {
+        
+    }
+    
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        if (null != mViews)
+        {
+            mViews.clear();
+            mViews = null;
+        }
+    }
+    
+    /**
+     * 初始化栏目
+     * <一句话功能简述>
+     * <功能详细描述> [参数说明]
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    private void initViewPager()
+    {
+        for (int i = 0; i < titleArray.length; i++)
+        {
+            if (null == mViews)
+            {
+                mViews = new ArrayList<View>();
+            }
+          //  if (i == 0)
+          //  {
+                
+                //GradeCountPagerView
+                NewGradeCommentPageView pagerView = new NewGradeCommentPageView(
+                        mContext);
+                pagerView.sendRequest();
+                mViews.add(pagerView);
+           // }
+//            else if (i == 1)
+//            {
+//                GradeHistoryPagerView pagerView = new GradeHistoryPagerView(
+//                        mContext);
+//                pagerView.sendRequest();
+//                mViews.add(pagerView);
+//            }
+//            else if (i == 2)
+//            {
+//                GradeCommentPagerView pagerView = new GradeCommentPagerView(
+//                        mContext);
+//                pagerView.sendRequest();
+//                mViews.add(pagerView);
+//            }
+        }
+        mViewPager.setAdapter(new TabPagerAdapter(mViews, titleArray));
+        mTabPageIndicator.setViewPager(mViewPager);
+        mViewPager.setCurrentItem(0);
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener()
+        {
+            @Override
+            public void onPageSelected(int position)
+            {
+                if (titleArray.length > position)
+                {
+                    View view = mViews.get(position);
+                }
+                mTabPageIndicator.setCurrentItem(position);
+            }
+            
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2)
+            {
+                
+            }
+            
+            @Override
+            public void onPageScrollStateChanged(int arg0)
+            {
+            }
+        });
+    }
+    
+}

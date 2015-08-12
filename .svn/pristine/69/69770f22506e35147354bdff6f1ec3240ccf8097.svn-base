@@ -1,0 +1,196 @@
+package com.xweisoft.wx.family.logic.global;
+
+/**
+ * <一句话功能简述>
+ * 用于存放程序所有接口请求地址
+ * @author  administrator
+ * @version  [版本号, 2013-10-24]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public interface HttpAddressProperties
+{
+    
+    /**
+     * 接口相对路径
+     */
+    String PATH_PRE = "/pc_secureproxy/";
+    
+    /**
+     * 文件上传接口
+     */
+    String UPLOAD_HEADER_URL = "/resource_server/uploadfile/uploadStudentPortrait";
+    
+    /**
+     * 文件上传接口
+     */
+    String UPLOAD_FILE_URL = "/resource_server/uploadfile/uploadParentsChatMsg";
+    
+    /**
+     * 用户头像
+     */
+    String USER_HEADER = "parentsPortrait";
+    
+    /**
+     * 个人中心（选择孩子）
+     */
+    String CHOOSE_CHILDREN = "parent/studentSelect";
+    
+    /**
+     * 业务处理接口
+     */
+    String SERVICE_URL = "service/action";
+    
+    /**
+     * 短信验证码
+     */
+    String CODE_AUTH = "parent/getVerifyCode";
+    
+    /**
+     * 注册
+     */
+    String REGISTER_URL = "personal/regist";
+    
+    /**
+     * 找回密码
+     */
+    String FORGETPASSWORD_URL = "personal/forgotPwd";
+    
+    /**
+     * 忘记密码
+     */
+    String FORGET_PASSWORD = "parent/passwordReset";
+    
+    /**
+     * 登录parent/login
+     */
+    String LOGIN_URL = "parent/login";
+    
+    /**
+     * 退出接口
+     */
+    String LOGOUT_URL = "parent/logout";
+    
+    /**
+     * 登录账户绑定即时通信接口
+     */
+    String PERSONAL_BINDING_URL = "personal/binding";
+    
+    /**
+     * 修改密码
+     */
+    // String MODIFY_PASSWORD_URL = "personal/updatePwd";
+    String MODIFY_PASSWORD_URL = "parent/updatePassword";
+    
+    /**
+     * 忘记密码
+     */
+    String FORGET_PASSWORD_URL = "personal/forgotPwd";
+    
+    /**
+     * 获取验证码
+     */
+    String GET_VERIFYCODE = "authCode";//authCode
+    
+    /**
+     * 监护角色
+     */
+    String ROLE = "updateAppellation";
+    
+    /**
+     * 客户端升级
+     */
+    String CLIENT_UPDATE = "clientUpdate";
+    
+    /**
+     *  意见反馈
+     */
+    String FEEDBACK = "feedback";
+    
+    /**
+     * 区域列表
+     */
+    String AREA_LIST = "addressList";
+    
+    /**
+     * 区域学校列表
+     */
+    String AREA_SCHOOL_LIST = "schoolList";
+    
+    /**
+     * 系统消息
+     */
+    String APPLY_LIST = "predictionList";
+    
+    /**
+     * 班级作业
+     */
+    String WORK_MESSAGE = "classWorkList";
+    
+    /**
+     * 班级作业详情
+     */
+    String WORK_MESSAGE_DETAIL = "classWorkDetails";
+    
+    /**
+     * 系统消息
+     */
+    String SYSTEM_MESSAGE = "sysMsg";
+    
+    /**
+     * 系统消息详情
+     */
+    String SYSTEM_MESSAGE_DETAIL = "sysMsgDetails";
+    
+    /**
+     * 学校消息
+     */
+    String SCHOOL_MESSAGE = "schoolMsgList";
+    
+    /**
+     * 学校消息详情
+     */
+    String SCHOOL_MESSAGE_DETAIL = "schoolMsg";
+    
+    /**
+     * 班级消息
+     */
+    String CLASS_MESSAGE = "classMsgList";
+    
+    /**
+     * 班级消息详情
+     */
+    String CLASS_MESSAGE_DETAIL = "classMsg";
+    
+    /**
+     * 
+     * 老师评语
+     * 
+     */
+    String SUBJECTSCORE = "subjectScore";
+    
+    /**
+     * 预报名提交
+     */
+    String APPLY_SUBMIT = "prediction";
+    
+    /**
+     * （个人通讯录）添加
+     */
+    String PERSON_CONTACTS_ADD = "createContact";
+    
+    /**
+     * （个人通讯录）删除
+     */
+    String PERSON_CONTACTS_DELETE = "deleteContact";
+    
+    /**
+     * 个人通讯录
+     */
+    String PERSON_CONTACTS = "myContact";
+    
+    /**
+     * 班级通讯录
+     */
+    String CLASS_CONTACTS = "classContact";
+}

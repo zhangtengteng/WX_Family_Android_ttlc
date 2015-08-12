@@ -1,0 +1,245 @@
+package com.xweisoft.wx.family.ui.grade.newview;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+import com.xweisoft.wx.family.logic.model.Examination;
+import com.xweisoft.wx.family.logic.model.ExaminationList;
+import com.xweisoft.wx.family.logic.model.response.ExaminaResp;
+import com.xweisoft.wx.family.logic.model.response.GradeCountExamResp;
+import com.xweisoft.wx.family.ui.grade.newadapter.NewGradeCommentListAdapter;
+import com.xweisoft.wx.family.ui.grade.view.GradePickerDialog;
+import com.xweisoft.wx.family.util.HttpRequestUtil;
+import com.xweisoft.wx.family.util.ListUtil;
+import com.xweisoft.wx.family.util.Util;
+import com.xweisoft.wx.family.widget.NetHandler;
+
+public class NewGradeCommentPageView extends LinearLayout
+{
+    
+    private View mFootView; 
+    private View mLoadMoreView;
+    private TextView mLoadMoreTextView;
+    private View mLoadingView;
+    private IOnLoadMoreListener mLoadMoreListener;                      // 加载更多监听器
+   // private int mLoadMoreState = IListViewState.LVS_NORMAL;
+    private ListView mListView;
+    
+    /**
+     * Context上下文
+     */
+    private Context mContext;
+    
+    private Button btnchange;
+    
+    private Button btnLift;
+    private Button btnRight;
+    
+    private NewGradeCommentListAdapter mAdapter;
+    
+    /**ExamItem
+     * 组集合 
+     */
+    private ArrayList<ExaminationList> mList = new ArrayList<ExaminationList>();
+    public interface IOnLoadMoreListener
+    {
+        void OnLoadMore();
+    }
+    
+    /**
+     * GroupPosition 选中的组的位置
+     */
+    
+    private int position = -1;
+    
+    private TextView mGradeText;
+    
+    public NewGradeCommentPageView(Context context)
+    {
+        super(context);
+        init(context);
+    }
+    
+    private void init(Context context)
+    {
+        mContext = context;
+        inflate(context, R.layout.grade_comment_pager_view, this);
+        mGradeText = (TextView) findViewById(R.id.grade_count_grade_text); //上学期下学期
+        btnchange = (Button) findViewById(R.id.btn_number);
+        btnLift = (Button) findViewById(R.id.btn_lift);
+        btnRight= (Button) findViewById(R.id.btn_rigtht);
+        
+        mListView = (ListView) findViewById(R.id.grade_coment_listView);
+        mAdapter = new NewGradeCommentListAdapter(mContext, mList);
+     
+        mListView.setAdapter(mAdapter);
+        
+        
+        btnRight.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View arg0)
+            {
+//                if (condition)
+//                {
+//                    
+//                }
+//                showToast("你点击了右边的按钮");
+                
+            }
+        });
+        
+        btnLift.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View arg0)
+            {
+               
+//                showToast("你点击了左边的按钮");
+                
+            }
+        });
+     //   initLoadMoreView(context);
+        btnchange.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View arg0)
+            {
+                
+//              
+//                GradePickerDialog dialog = new GradePickerDialog(mContext, null);
+//                dialog.showDialog();
+                
+            }
+        });
+        
+        mListView.setOnItemClickListener(new OnItemClickListener()
+        {
+            
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int postion, long id)
+            {
+                
+                ExaminationList item = mList.get(postion);
+                String examinationId1 = item.examinationId;
+               
+                Intent i = new Intent(mContext, NewCommentScoreAndMess.class);
+                i.putExtra("examinationId", examinationId1);
+                mContext.startActivity(i);
+                
+            }
+        });
+        
+    }
+    
+//    private void initLoadMoreView(Context context)
+//    {
+//        // TODO Auto-generated method stub
+//        
+//        mFootView = LayoutInflater.from(context).inflate(R.layout.loadmore,
+//                null);
+//        
+//        mLoadMoreView = mFootView.findViewById(R.id.load_more_view);
+//        
+//        mLoadMoreTextView = (TextView) mFootView.findViewById(R.id.load_more_tv);
+//        
+//        mLoadingView = mFootView.findViewById(R.id.loading_layout);
+//        
+//        mLoadMoreView.setOnClickListener(this);
+//        
+//        addFooterView(mFootView);
+//        
+//    }
+    
+    
+
+    /**
+     * 组集合请求响应处理
+     */
+    
+        private Handler handler = new NetHandler(false) {
+    
+            @Override
+            public void onSuccess(String errMsg, Message msg) {
+                ExaminaResp resp = null;
+                if (null != msg.obj && msg.obj instanceof ExaminaResp) {
+                    resp = (ExaminaResp) msg.obj;
+                 //   mGradeText.setText(Util.checkNull(resp.schoolYear));
+                    int score =resp.schoolYear-1;
+                    btnchange.setText(score+"-"+Util.checkNull(resp.schoolYear+"学年 ")+Util.checkNull(resp.gradeName));
+                    if (!ListUtil.isEmpty(resp.examinationList)) {
+                        mList.clear();
+                        mList.addAll(resp.examinationList);
+                        mAdapter.setList(mList);
+                       
+                    }
+                }
+            }
+    
+            @Override
+            public void onFailed(String errCode, String errMsg, Message msg) {
+                showToast(errMsg);
+            }
+        };
+    
+//    public void setDate()
+//    {
+//        
+//        ExamItem m = new ExamItem();
+//        m.examinationName = "期末考试1";
+//        m.semester = "2";
+//        mList.add(m);
+//        ExamItem m1 = new ExamItem();
+//        m1.examinationName = "期末考试2";
+//        m1.semester = "1";
+//        mList.add(m1);
+//        ExamItem m2 = new ExamItem();
+//        m2.examinationName = "期末考试3";
+//        m2.semester = "2";
+//        mList.add(m2);
+//        mAdapter.setList(mList);
+//        
+//    }
+    
+    /**
+     * 发送接口请求 <一句话功能简述> <功能详细描述> [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+        public void sendRequest() {
+            Map<String, String> param = HttpRequestUtil
+                    .getCommonParams("examinationList");
+            HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+                    HttpAddressProperties.SERVICE_URL, param,
+                    ExaminaResp.class, handler);
+        }
+    
+    private void showToast(String str)
+    {
+        if (null != mContext)
+        {
+            Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+}

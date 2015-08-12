@@ -1,0 +1,78 @@
+package com.xweisoft.wx.family.util;
+
+import android.content.Context;
+import android.os.Handler;
+
+import com.google.gson.Gson;
+import com.xweisoft.wx.family.logic.global.NetWorkCodes.CommontErrorCodes;
+import com.xweisoft.wx.family.logic.global.NetWorkCodes.CommontSuccessCodes;
+
+/**
+ * Assets帮助类
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  gac
+ * @version  [版本号, 2014-7-9]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class AssetsUtil
+{
+    
+    public static void getHomeKinds(Context context, Handler handler, Class cls)
+    {
+        if (null != context && null != handler && null != cls)
+        {
+            String result = SharedPreferencesUtil.getSharedPreferences(context,
+                    SharedPreferencesUtil.SP_KEY_ASSETS_DATA,
+                    "");
+            Gson gson = new Gson();
+            try
+            {
+                Object object = gson.fromJson(result, cls);
+                handler.sendMessage(handler.obtainMessage(CommontSuccessCodes.SUCCESS,
+                        object));
+            }
+            catch (Exception e) // 异常处理
+            {
+                handler.sendMessage(handler.obtainMessage(CommontErrorCodes.OTHER_ERROR));
+            }
+        }
+    }
+    
+    /**
+     * 解析缓存到本地的json字符
+     * <一句话功能简述>
+     * <功能详细描述>
+     * @param context
+     * @param key
+     * @param handler
+     * @param cls [参数说明]
+     * 
+     * @return void [返回类型说明]
+     * @exception throws [违例类型] [违例说明]
+     * @see [类、类#方法、类#成员]
+     */
+    public static void getLocalJson(Context context, String key,
+            Handler handler, Class cls)
+    {
+        if (null != context && null != handler && null != cls && null != key)
+        {
+            String result = SharedPreferencesUtil.getSharedPreferences(context,
+                    key,
+                    "");
+            Gson gson = new Gson();
+            try
+            {
+                Object object = gson.fromJson(result, cls);
+                handler.sendMessage(handler.obtainMessage(CommontSuccessCodes.SUCCESS,
+                        object));
+            }
+            catch (Exception e) // 异常处理
+            {
+                handler.sendMessage(handler.obtainMessage(CommontErrorCodes.OTHER_ERROR));
+            }
+        }
+    }
+}

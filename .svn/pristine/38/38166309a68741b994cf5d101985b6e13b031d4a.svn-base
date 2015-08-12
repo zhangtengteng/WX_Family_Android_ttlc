@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_white_bg" >
+
+    <!-- 导航栏 -->
+
+    <LinearLayout
+        android:id="@+id/main_navigate"
+        android:layout_width="match_parent"
+        android:layout_height="55dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/common_white_bg"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/main_navi_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true" >
+
+            <TextView
+                android:id="@+id/main_navi_message_text"
+                style="@style/main_navi_txt_style"
+                android:text="@string/wx_tab_message" />
+
+            <ImageView
+                style="@style/main_navi_img_style"
+                android:layout_above="@id/main_navi_message_text"
+                android:contentDescription="@null"
+                android:src="@drawable/wx_tab_message_selector" />
+
+            <ImageView
+                android:id="@+id/main_navi_message_unread"
+                android:layout_width="8dip"
+                android:layout_height="8dip"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="18dip"
+                android:layout_marginTop="5dip"
+                android:src="@drawable/wx_message_unread_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_navi_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true" >
+
+            <TextView
+                android:id="@+id/main_navi_contacts_text"
+                style="@style/main_navi_txt_style"
+                android:text="@string/wx_tab_contacts" />
+
+            <ImageView
+                style="@style/main_navi_img_style"
+                android:layout_above="@id/main_navi_contacts_text"
+                android:contentDescription="@null"
+                android:src="@drawable/wx_tab_contacts_selector" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_navi_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true" >
+
+            <TextView
+                android:id="@+id/main_navi_score_text"
+                style="@style/main_navi_txt_style"
+                android:text="@string/wx_tab_score" />
+
+            <ImageView
+                style="@style/main_navi_img_style"
+                android:layout_above="@id/main_navi_score_text"
+                android:contentDescription="@null"
+                android:src="@drawable/wx_tab_score_selector" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_navi_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true" >
+
+            <TextView
+                android:id="@+id/main_navi_person_text"
+                style="@style/main_navi_txt_style"
+                android:text="@string/wx_tab_person" />
+
+            <ImageView
+                style="@style/main_navi_img_style"
+                android:layout_above="@id/main_navi_person_text"
+                android:contentDescription="@null"
+                android:src="@drawable/wx_tab_person_selector" />
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- 分割线 -->
+
+    <View
+        android:id="@+id/navigate_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dip"
+        android:layout_above="@id/main_navigate"
+        android:background="@drawable/common_divider_line" />
+
+    <!-- 内容 -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/navigate_top_line"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

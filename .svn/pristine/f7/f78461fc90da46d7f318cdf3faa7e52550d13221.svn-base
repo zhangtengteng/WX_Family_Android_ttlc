@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_gray_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/wx_common_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/ysh_item_bg_xml"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:id="@+id/tv_feedback"
+            android:layout_width="0dip"
+            android:layout_height="35dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="接受新消息通知"
+            android:textColor="@color/common_title_454545_color"
+            android:textSize="16sp" />
+
+        <com.xweisoft.wx.family.widget.SettingSlipButton
+            android:id="@+id/set_message_receive_notice_slip_button"
+            android:layout_width="60dip"
+            android:layout_height="35dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dip"
+        android:background="@drawable/ysh_item_bg_xml"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="35dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="通知显示消息详情"
+                android:textColor="@color/common_title_454545_color"
+                android:textSize="16sp" />
+
+            <com.xweisoft.wx.family.widget.SettingSlipButton
+                android:id="@+id/set_message_show_info_slip_button"
+                android:layout_width="60dip"
+                android:layout_height="35dip" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:gravity="center_vertical"
+            android:text="若关闭，收到问学消息时，通知提示将不显示发信人和内容摘要。"
+            android:textColor="@color/common_content_a7a7a7_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/ysh_item_bg_xml"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="35dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="声音"
+            android:textColor="@color/common_title_454545_color"
+            android:textSize="16sp" />
+
+        <com.xweisoft.wx.family.widget.SettingSlipButton
+            android:id="@+id/set_message_voice_slip_button"
+            android:layout_width="60dip"
+            android:layout_height="35dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="1dip"
+        android:background="@drawable/ysh_item_bg_xml"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="35dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="震动"
+            android:textColor="@color/common_title_454545_color"
+            android:textSize="16sp" />
+
+        <com.xweisoft.wx.family.widget.SettingSlipButton
+            android:id="@+id/set_message_vibrate_slip_button"
+            android:layout_width="60dip"
+            android:layout_height="35dip" />
+    </LinearLayout>
+
+</LinearLayout>

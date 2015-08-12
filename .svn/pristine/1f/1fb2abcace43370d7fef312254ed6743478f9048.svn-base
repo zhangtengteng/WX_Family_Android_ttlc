@@ -1,0 +1,230 @@
+//package com.xweisoft.wx.family.ui.grade.view;
+//
+//import java.util.ArrayList;
+//import java.util.Map;
+//
+//import android.content.Context;
+//import android.content.Intent;
+//import android.os.Handler;
+//import android.os.Message;
+//import android.util.AttributeSet;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.widget.ExpandableListView;
+//import android.widget.ExpandableListView.OnGroupClickListener;
+//import android.widget.LinearLayout;
+//import android.widget.TextView;
+//
+//import com.xweisoft.wx.family.R;
+//import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
+//import com.xweisoft.wx.family.logic.model.ExamItem;
+//import com.xweisoft.wx.family.logic.model.response.GradeCountExamResp;
+//import com.xweisoft.wx.family.logic.model.response.GradeCountScoreResp;
+//import com.xweisoft.wx.family.ui.grade.HistoryCommentActicvity;
+//import com.xweisoft.wx.family.ui.grade.adapter.GradeCommentExpendListAdapter;
+//import com.xweisoft.wx.family.util.HttpRequestUtil;
+//import com.xweisoft.wx.family.util.ListUtil;
+//import com.xweisoft.wx.family.widget.NetHandler;
+//
+//public class GradeCommentPagerView extends LinearLayout
+//{
+//    
+//    private Context mContext; // 上下文
+//    
+//    private TextView historyText;
+//    
+//    /**
+//     * 可展开的listView
+//     */
+//    private ExpandableListView mListView;
+//    
+//    /**
+//     * 自定义ExpandableListAdapter
+//     */
+//    
+//    private GradeCommentExpendListAdapter mAdapter;
+//    
+//    /**
+//     * 组集合
+//     */
+//    private ArrayList<ExamItem> mList = new ArrayList<ExamItem>();
+//    
+//    /**
+//     * GroupPosition 选中的组的位置
+//     */
+//    
+//    private int position = -1;
+//    
+//    /**
+//     * 每组子集合请求响应处理
+//     */
+//    private Handler scoreHandler = new NetHandler(false)
+//    {
+//        
+//        @Override
+//        public void onSuccess(String errMsg, Message msg)
+//        {
+//            GradeCountScoreResp resp = null;
+//            if (null != msg.obj && msg.obj instanceof GradeCountScoreResp)
+//            {
+//                resp = (GradeCountScoreResp) msg.obj;
+//                if (!ListUtil.isEmpty(resp.subjectScores))
+//                {
+//                    if (position >= 0)
+//                    {
+//                        mList.get(position).list = resp.subjectScores;
+//                        mAdapter.setList(mList);
+//                    }
+//                }
+//            }
+//        }
+//        
+//        @Override
+//        public void onFailed(String errCode, String errMsg, Message msg)
+//        {
+//            showToast(errMsg);
+//        }
+//    };
+//    
+//    /**
+//     * 组集合请求响应处理
+//     */
+//    
+//    private Handler handler = new NetHandler(false)
+//    {
+//        
+//        @Override
+//        public void onSuccess(String errMsg, Message msg)
+//        {
+//            GradeCountExamResp resp = null;
+//            if (null != msg.obj && msg.obj instanceof GradeCountExamResp)
+//            {
+//                resp = (GradeCountExamResp) msg.obj;
+//                // mGradeText.setText(Util.checkNull(resp.gradeName));
+//                if (!ListUtil.isEmpty(resp.examinations))
+//                {
+//                    mList.clear();
+//                    mList.addAll(resp.examinations);
+//                    mAdapter.setList(mList);
+//                }
+//            }
+//        }
+//        
+//        @Override
+//        public void onFailed(String errCode, String errMsg, Message msg)
+//        {
+//            showToast(errMsg);
+//        }
+//    };
+//    
+//    /**
+//     * 发送接口请求 <一句话功能简述> <功能详细描述> [参数说明]
+//     * 
+//     * @return void [返回类型说明]
+//     * @exception throws [违例类型] [违例说明]
+//     * @see [类、类#方法、类#成员]
+//     */
+//    
+//    private String examinationId;
+//    
+//    public GradeCommentPagerView(Context context, AttributeSet attrs)
+//    {
+//        super(context, attrs);
+//        init(context);
+//    }
+//    
+//    protected void showToast(String errMsg)
+//    {
+//        // TODO Auto-generated method stub
+//        
+//    }
+//    
+//    public GradeCommentPagerView(Context context)
+//    {
+//        super(context);
+//        init(context);
+//    }
+//    
+//    private void init(Context context)
+//    {
+//        mContext = context;
+//        inflate(context, R.layout.grade_comment_pager_view, this);
+//       // mListView = (ExpandableListView) findViewById(R.id.grade_coment_expandable_listview);   //改了
+//        mAdapter = new GradeCommentExpendListAdapter(mContext, mList);
+//        // mAdapter.setList(mList);
+//        
+//        View view = LayoutInflater.from(context)
+//                .inflate(R.layout.grade_comment_footer_view, null);
+//        historyText = (TextView) view.findViewById(R.id.grade_comment_footer_history);
+//        mListView.addFooterView(view);
+//        mListView.setAdapter(mAdapter);
+//        // initData();
+//        bindListener();
+//        
+//    }
+//    
+//    /**
+//     * 绑定监听事件 <一句话功能简述> <功能详细描述> [参数说明]
+//     * 
+//     * @return void [返回类型说明]
+//     * @exception throws [违例类型] [违例说明]
+//     * @see [类、类#方法、类#成员]
+//     */
+//    private void bindListener()
+//    {
+//        mListView.setOnGroupClickListener(new OnGroupClickListener()
+//        {
+//            
+//            @Override
+//            public boolean onGroupClick(ExpandableListView parent, View v,
+//                    int groupPosition, long id)
+//            {
+//                position = groupPosition;
+//                Map<String, String> param = HttpRequestUtil.getCommonParams("subjectScore");
+//                param.put("examinationId",
+//                        mList.get(groupPosition).examinationId);
+//                HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+//                        HttpAddressProperties.SERVICE_URL,
+//                        param,
+//                        GradeCountScoreResp.class,
+//                        scoreHandler);
+//                return false;
+//            }
+//        });
+//        
+//        //历史评语
+//        
+//        historyText.setOnClickListener(new OnClickListener()
+//        {
+//            
+//            @Override
+//            public void onClick(View arg0)
+//            {
+//                Intent intent = new Intent(mContext,
+//                        HistoryCommentActicvity.class);
+//                mContext.startActivity(intent);
+//                
+//            }
+//            
+//        });
+//        
+//    }
+//    
+//    /**
+//     * 发送接口请求 <一句话功能简述> <功能详细描述> [参数说明]
+//     * 
+//     * @return void [返回类型说明]
+//     * @exception throws [违例类型] [违例说明]
+//     * @see [类、类#方法、类#成员]
+//     */
+//    public void sendRequest()
+//    {
+//        Map<String, String> param = HttpRequestUtil.getCommonParams("examinationList");
+//        HttpRequestUtil.sendHttpPostCommonRequest(mContext,
+//                HttpAddressProperties.SERVICE_URL,
+//                param,
+//                GradeCountExamResp.class,
+//                handler);
+//    }
+//    
+//}

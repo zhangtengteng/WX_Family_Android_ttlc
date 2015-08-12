@@ -1,0 +1,76 @@
+package com.xweisoft.wx.family.logic.model;
+
+import java.io.Serializable;
+
+/**
+ * 通讯录（好友）对象
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-7-23]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class ContactItem implements Serializable
+{
+    /**
+     * 注释内容
+     */
+    private static final long serialVersionUID = -8173653263608146188L;
+    
+    /**
+     * 本地数据库id
+     */
+    public String id;
+    
+    /**
+     * 用户编号
+     */
+    public String userId;
+    
+    /**
+     * 学生编号（家长有，教师无）
+     */
+    public String studentId;
+    
+    /**
+     * 电话
+     */
+    public String phone;
+    
+    /**
+     * 名称
+     */
+    public String name;
+    
+    /**
+     * 角色1 教师 2 家长
+     */
+    public String role;
+    
+    /**
+     * 是否是好友
+     */
+    public String isFriend;
+    
+    /**
+     * 称谓
+     */
+    public String appellation;
+    
+    /**
+     * 头像
+     */
+    public String portraitPath;
+    
+    /**
+     * 好友id(删除时操作)
+     */
+    public String contactId;
+    
+    /**
+     * 性别
+     */
+    public String sex;
+}

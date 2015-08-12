@@ -1,0 +1,196 @@
+package com.xweisoft.wx.family.ui.setting;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.global.GlobalVariable;
+import com.xweisoft.wx.family.ui.BaseActivity;
+import com.xweisoft.wx.family.util.CommonTitleUtil;
+import com.xweisoft.wx.family.util.SharedPreferencesUtil;
+import com.xweisoft.wx.family.widget.SettingSlipButton;
+import com.xweisoft.wx.family.widget.SettingSlipButton.OnChangedListener;
+
+/**
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 消息设置界面
+ * @author  houfangfang
+ * @version  [版本号, 2015-7-17]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class SetMessageActivity extends BaseActivity implements OnClickListener
+{
+    
+    /**
+     * 新消息通知
+     */
+    private SettingSlipButton receiveNoticeSlipBt;
+    
+    /**
+     * 显示具体信息
+     */
+    private SettingSlipButton showInfoSlipBt;
+    
+    /**
+     * 声音
+     */
+    private SettingSlipButton voiceSlipBt;
+    
+    /**
+     * 震动
+     */
+    private SettingSlipButton vibrateSlipBt;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(getActivityLayout());
+        initViews();
+        bindListener();
+    }
+    
+    @Override
+    public void initViews()
+    {
+        CommonTitleUtil.initCommonTitle(this,
+                getString(R.string.ysh_setting),
+                null,
+                false,
+                true);
+        receiveNoticeSlipBt = (SettingSlipButton) findViewById(R.id.set_message_receive_notice_slip_button);
+        showInfoSlipBt = (SettingSlipButton) findViewById(R.id.set_message_show_info_slip_button);
+        voiceSlipBt = (SettingSlipButton) findViewById(R.id.set_message_voice_slip_button);
+        vibrateSlipBt = (SettingSlipButton) findViewById(R.id.set_message_vibrate_slip_button);
+        
+        //        sharedPreferences = getSharedPreferences(GlobalConstant.Setting.SETTING_PREFENCE,
+        //                MODE_APPEND);
+        //        String share = sharedPreferences.getString(GlobalConstant.Setting.PUSH_MESSAGE,
+        //                GlobalConstant.Setting.PUSH_YES);
+        //        if (share.equals(GlobalConstant.Setting.PUSH_YES)) //推送消息
+        //        {
+        //            //            slipButton.setCheck(true);
+        //        }
+        //        else
+        //        // 不推送消息
+        //        {
+        //            //            slipButton.setCheck(false);
+        //        }
+        //        if (BaiduPushUtil.hasBind(mContext))
+        //        {
+        //            slipButton.setCheck(true);
+        //        }
+        //        else
+        //        {
+        //            slipButton.setCheck(false);
+        //        }
+    }
+    
+    @Override
+    public void bindListener()
+    {
+        receiveNoticeSlipBt.SetOnChangedListener(new OnChangedListener()
+        {
+            @Override
+            public void OnChanged(boolean CheckState)
+            {
+                if (CheckState)
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_NEW_MESSAGE,
+                            "yes");
+                    GlobalVariable.MESSAGE_SET_NEW_MESSAGE_IS_OPEN = true;
+                }
+                else
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_NEW_MESSAGE,
+                            "no");
+                    GlobalVariable.MESSAGE_SET_NEW_MESSAGE_IS_OPEN = false;
+                }
+            }
+        });
+        
+        showInfoSlipBt.SetOnChangedListener(new OnChangedListener()
+        {
+            @Override
+            public void OnChanged(boolean CheckState)
+            {
+                if (CheckState)
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_SHOW_INFO,
+                            "yes");
+                    GlobalVariable.MESSAGE_SET_SHOW_INFO_IS_OPEN = true;
+                }
+                else
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_SHOW_INFO,
+                            "no");
+                    GlobalVariable.MESSAGE_SET_SHOW_INFO_IS_OPEN = false;
+                }
+            }
+        });
+        
+        voiceSlipBt.SetOnChangedListener(new OnChangedListener()
+        {
+            @Override
+            public void OnChanged(boolean CheckState)
+            {
+                if (CheckState)
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_VOICE,
+                            "yes");
+                    GlobalVariable.MESSAGE_SET_VOICE_IS_OPEN = true;
+                }
+                else
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_VOICE,
+                            "no");
+                    GlobalVariable.MESSAGE_SET_VOICE_IS_OPEN = false;
+                }
+            }
+        });
+        
+        vibrateSlipBt.SetOnChangedListener(new OnChangedListener()
+        {
+            @Override
+            public void OnChanged(boolean CheckState)
+            {
+                if (CheckState)
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_VIBRATE,
+                            "yes");
+                    GlobalVariable.MESSAGE_SET_VIBRATE_IS_OPEN = true;
+                }
+                else
+                {
+                    SharedPreferencesUtil.saveSharedPreferences(mContext,
+                            SharedPreferencesUtil.SP_KEY_MESSAGE_SET_VIBRATE,
+                            "no");
+                    GlobalVariable.MESSAGE_SET_VIBRATE_IS_OPEN = false;
+                }
+            }
+        });
+    }
+    
+    @Override
+    public int getActivityLayout()
+    {
+        return R.layout.set_message_activity;
+    }
+    
+    @Override
+    public void onClick(View v)
+    {
+        
+    }
+    
+}

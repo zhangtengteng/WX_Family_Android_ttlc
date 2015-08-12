@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_help_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_gray_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/wx_common_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/common_gray_bg"
+        android:orientation="horizontal"
+        android:padding="10dip"
+        android:visibility="gone" >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/wx_message_input_bg"
+            android:drawablePadding="5dip"
+            android:hint="搜索"
+            android:padding="5dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_f8f8f8_color"
+        android:orientation="horizontal" >
+
+        <com.xweisoft.wx.family.widget.TabPageIndicator
+            android:id="@+id/contact_title_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:fadingEdge="none" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/contact_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/common_white_bg"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+</LinearLayout>

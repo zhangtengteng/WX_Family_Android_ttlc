@@ -1,0 +1,83 @@
+package com.xweisoft.wx.family.logic.model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+/**
+ * 消息内容对象
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-5-30]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class MsgContentItem implements Serializable
+{
+    
+    /**
+     * 注释内容
+     */
+    private static final long serialVersionUID = -7610801953078571174L;
+    
+    /**
+     * 消息类型
+     */
+    public String cmd;
+    
+    /**
+     * 数据库主键
+     */
+    public String primaryKey;
+    
+    /**
+     * 未读消息数量
+     */
+    public int unReadCount;
+    
+    /**
+     * 推送消息id
+     */
+    public String id;
+    
+    /**
+     * 消息类型 0 接受的消息 1 发送的消息
+     */
+    public String from;
+    
+    /**
+     * 班级作业 消息文本
+     */
+    public MsgNoticeItem notice;
+    
+    /**
+     * 音频地址 （备用属性）
+     */
+    public String audioPath;
+    
+    /**
+     * 视频地址 （备用属性）
+     */
+    public String videoPath;
+    
+    public String userName;
+    
+    public String userAppellation;
+    
+    public String userId;
+    
+    public String studentId;
+    
+    /**
+     * 1文本，2语音，3 视频, 4 图片, 5 地理位置, 6其他文件
+     */
+    public String type;
+    
+    public String time;
+    
+    public String text;
+    
+    public String header;
+    
+}

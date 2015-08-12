@@ -1,0 +1,8 @@
+#yshpb_request_url==172.20.146.214:8070
+#yshpb_https_request_url==172.20.146.214:8070
+yshpb_request_url==wenx.dev.xweisoft.com
+yshpb_https_request_url==wenx.dev.xweisoft.com
+#yshpb_request_url==wenx.test.xweisoft.com
+#yshpb_https_request_url==wenx.test.xweisoft.com
+#yshpb_info_log_record==0 no record  1 record
+yshpb_info_log_record==0

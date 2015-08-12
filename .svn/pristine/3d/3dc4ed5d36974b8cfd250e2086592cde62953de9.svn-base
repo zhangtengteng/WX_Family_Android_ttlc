@@ -1,0 +1,138 @@
+package com.xweisoft.wx.family.ui.grade.view;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.widget.BaseDialog;
+import com.xweisoft.wx.family.widget.WheelView;
+import com.xweisoft.wx.family.widget.WheelView.OnWheelPickerListener;
+
+/**
+ * 成绩学年学年选择框
+ * <一句话功能简述>
+ * <功能详细描述>
+ * 
+ * @author  poorgod
+ * @version  [版本号, 2015-7-20]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class GradePickerDialog extends BaseDialog implements
+        android.view.View.OnClickListener
+{
+    /**
+     * 滚动选择view
+     */
+    private WheelView mWheelView;
+    
+    /**
+     * 顶部箭头
+     */
+    private ImageView mArrowUpImage;
+    
+    /**
+     * 底部箭头
+     */
+    private ImageView mArrowDownImage;
+    
+    /**
+     * 取消
+     */
+    private TextView mCancelText;
+    
+    /**
+     * 确认
+     */
+    private TextView mConfirmText;
+    
+    /**
+     * 滚动数据集合
+     */
+    private ArrayList<String> mList;
+    
+    private static final String[] PLANETS = new String[] { "Mercury", "Venus",
+            "Earth", "Mars", "Jupiter", "Uranus", "Neptune", "Pluto" };
+    
+    /**
+     * <默认构造函数>
+     */
+    public GradePickerDialog(Context context, ArrayList<String> list)
+    {
+        super(context, R.layout.wx_grade_picker_dialog);
+        if (null == list)
+        {
+            mList = new ArrayList<String>();
+            mList.addAll(Arrays.asList(PLANETS));
+        }
+        else
+        {
+            mList = list;
+        }
+    }
+    
+    @Override
+    protected void initViews()
+    {
+        mWheelView = (WheelView) findViewById(R.id.grade_picker_dialog_wheelview);
+        
+        mArrowUpImage = (ImageView) findViewById(R.id.grade_picker_dialog_arrow_up);
+        mArrowDownImage = (ImageView) findViewById(R.id.grade_picker_dialog_arrow_down);
+        
+        mCancelText = (TextView) findViewById(R.id.grade_picker_dialog_cancel);
+        mConfirmText = (TextView) findViewById(R.id.grade_picker_dialog_confirm);
+    }
+    
+    @Override
+    protected void bindLinsenter()
+    {
+        mWheelView.setOffset(1);
+        mWheelView.setItems(mList);
+        mWheelView.setOnWheelPickerListener(new OnWheelPickerListener()
+        {
+            
+            @Override
+            public void wheelSelect(int position, String content)
+            {
+                mArrowUpImage.setVisibility(View.VISIBLE);
+                mArrowDownImage.setVisibility(View.VISIBLE);
+                if (position == 0)
+                {
+                    mArrowUpImage.setVisibility(View.INVISIBLE);
+                }
+                else if (position == mList.size() - 1)
+                {
+                    mArrowDownImage.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        mWheelView.setSelection(0);
+        mCancelText.setOnClickListener(this);
+        mConfirmText.setOnClickListener(this);
+    }
+    
+    @Override
+    public void onClick(View v)
+    {
+        dismiss();
+        switch (v.getId())
+        {
+            case R.id.grade_picker_dialog_confirm:
+                Toast.makeText(getContext(),
+                        "====" + PLANETS[mWheelView.getSelection()] + "====",
+                        Toast.LENGTH_SHORT).show();
+                
+                
+                break;
+            
+            default:
+                break;
+        }
+    }
+}

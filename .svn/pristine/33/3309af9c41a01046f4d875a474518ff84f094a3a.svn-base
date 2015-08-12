@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/common_gray_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/wx_common_title" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:fadingEdge="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_white_bg"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/ysh_prediction_parent_title"
+                        android:textColor="@color/green_35C384_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/common_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_parent_name" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_family_name"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_one_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_edit_name"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_parent_appellation" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_Appellation"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_one_call"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_Appellation_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_unit" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_work_unit"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_one_company"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_work_unit_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_position" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_position"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_one_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_work_position_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_tel" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_tel"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_one_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="请输入手机号码"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/apply_parent_info_add_view"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/common_white_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/iv_prediction_add"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/img_prediction_parent_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/ysh_prediction_add"
+                    android:textColor="@color/green_08a801_color"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/apply_parent_info_two_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/common_white_bg"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="更多信息MORE"
+                        android:textColor="@color/violet_8B6BBE_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/apply_parent_info_two_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="X"
+                        android:textColor="@color/violet_8B6BBE_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/common_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_parent_name" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_family_name"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_two_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_edit_name"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_parent_appellation" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_Appellation"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_two_call"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_Appellation_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_unit" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_work_unit"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_two_company"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_work_unit_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_position" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_position"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_two_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="@string/ysh_prediction_work_position_text"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/img_prediction_tel" />
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ysh_prediction_tel"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/apply_parent_info_two_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/wx_apply_input_bg"
+                        android:hint="请输入手机号"
+                        android:padding="5dip"
+                        android:singleLine="true"
+                        android:textColor="@color/black_858585_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/apply_parent_info_previous"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/violet_8B6BBE_color"
+            android:gravity="center"
+            android:text="@string/ysh_prediction_back"
+            android:textColor="@color/white_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/apply_parent_info_next"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/img_next"
+            android:gravity="center"
+            android:text="@string/ysh_prediction_next"
+            android:textColor="@color/white_color"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

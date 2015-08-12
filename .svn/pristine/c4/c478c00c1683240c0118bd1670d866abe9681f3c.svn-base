@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_white_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dip"
+        android:background="@drawable/common_gray_bg"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_lift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/rightgrenn" />
+
+        <Button
+            android:id="@+id/btn_number"
+            android:layout_width="220dip"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/stuyes"
+            android:text="2013-2010学年 初中二年"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_rigtht"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/liftgrenn" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/grade_count_grade_text"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
+        android:background="@drawable/common_white_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dip"
+        android:text="评论"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/gray_D2D2D2_color" />
+
+    <ListView
+        android:id="@+id/grade_coment_listView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_color"
+        android:cacheColorHint="@color/transparent_color"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/wx_transparent" >
+    </ListView>
+
+</LinearLayout>

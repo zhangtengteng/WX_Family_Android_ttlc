@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_gray_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/wx_common_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <!--
+            <LinearLayout
+                android:id="@+id/user_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="110dip"
+                android:background="@drawable/ysh_kind_behind_bg_2"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/userheader_imageview"
+                    android:layout_width="85dip"
+                    android:layout_height="85dip"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/defauilticon" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1.8"
+                    android:paddingLeft="25dp"
+                    android:text="安妮   (妈妈)"
+                    android:textColor="@color/white_color"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/arrow_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/topiconbtn" />
+            </LinearLayout>
+            -->
+
+            <LinearLayout
+                android:id="@+id/user_layout"
+                android:layout_width="match_parent"
+                android:layout_height="120dip"
+                android:background="@drawable/personal_center"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="90dip"
+                        android:layout_height="90dip"
+                        android:background="@drawable/ysh_default_user_pic_bg"
+                        android:gravity="center" >
+
+                        <ImageView
+                            android:id="@+id/userheader_imageview"
+                            android:layout_width="84dip"
+                            android:layout_height="84dip"
+                            android:background="@drawable/wx_default_header" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/username_textview"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="安妮"
+                        android:textColor="@color/white_color"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="20dip"
+                        android:layout_height="20dip"
+                        android:src="@drawable/topiconbtn" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/myswitch_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/tv_my_mess"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_change" />
+
+                <TextView
+                    android:id="@+id/tv_my_messe"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_switch"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mymessage_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="2dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/tv_switch_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_messge" />
+
+                <TextView
+                    android:id="@+id/tv_switch"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_mess"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mycontrol_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="2dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/iv_control_icon"
+                    android:layout_width="35dip"
+                    android:layout_height="35dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/img_personal_control" />
+
+                <TextView
+                    android:id="@+id/tv_control"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_control"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_control_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/ysh_update_c1c1c1_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mymodify_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="1dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_modify_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_updatepwd" />
+
+                <TextView
+                    android:id="@+id/tv_modify"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_modify"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/setting_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/iv_setting_icon"
+                    android:layout_width="35dip"
+                    android:layout_height="35dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/img_personal_setting" />
+
+                <TextView
+                    android:id="@+id/tv_setting"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_setting"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fankui_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_fankui_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_back" />
+
+                <TextView
+                    android:id="@+id/tv_fankui"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_back"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/my_chageupdate_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="2dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_sign_my_chage_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_jiancha" />
+
+                <TextView
+                    android:id="@+id/tv_sign_my_chage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_upgrates"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/my_clear_views"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="2dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_sign_my_clear_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_cler" />
+
+                <TextView
+                    android:id="@+id/tv_sign_my_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_clear"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sign_guanyu_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="2dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_sign_guanyu_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_guanyu" />
+
+                <TextView
+                    android:id="@+id/tv_sign_guanyu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_my_about_us"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sign_out_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginBottom="25dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/ysh_item_bg_xml"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_sign_out_icon"
+                    android:layout_width="40dip"
+                    android:layout_height="30dip"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/person_logiout" />
+
+                <TextView
+                    android:id="@+id/tv_sign_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/ysh_sign_out"
+                    android:textColor="@color/common_title_454545_color"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginRight="14dip"
+                    android:src="@drawable/wx_arrow_right" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

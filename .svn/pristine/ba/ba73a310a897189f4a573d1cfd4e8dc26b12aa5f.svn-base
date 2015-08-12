@@ -1,0 +1,91 @@
+package com.xweisoft.wx.family.ui.message.adpter;
+
+import android.content.Context;
+import android.text.Html;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.logic.model.MsgContentItem;
+import com.xweisoft.wx.family.logic.model.MsgNoticeItem;
+import com.xweisoft.wx.family.ui.adapter.ListViewAdapter;
+import com.xweisoft.wx.family.util.DateTools;
+import com.xweisoft.wx.family.util.Util;
+
+public class MessageListAdapter extends ListViewAdapter<MsgContentItem>
+{
+    
+    public MessageListAdapter(Context context)
+    {
+        super(context);
+    }
+    
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        ViewHolder viewHolder = null;
+        if (null == convertView)
+        {
+            viewHolder = new ViewHolder();
+            convertView = mInflater.inflate(R.layout.message_listview_header_item,
+                    null);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.message_listview_item_imageview);
+            viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.message_listview_item_title_textview);
+            viewHolder.dateTextView = (TextView) convertView.findViewById(R.id.message_listview_item_date_textview);
+            viewHolder.contentTextView = (TextView) convertView.findViewById(R.id.message_listview_item_content_textview);
+            viewHolder.mContentView = convertView.findViewById(R.id.message_listview_item_text_layout);
+            convertView.setTag(viewHolder);
+        }
+        else
+        {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.imageView.setVisibility(View.GONE);
+        MsgContentItem item = mList.get(position);
+        if (null != item)
+        {
+            MsgNoticeItem msg = item.notice;
+            if (null != msg)
+            {
+                viewHolder.titleTextView.setText(Util.checkNull(msg.title));
+                viewHolder.dateTextView.setText(DateTools.parseTimeMillis2Str(msg.publishTime,
+                        DateTools.YYYY_MM_DD));
+                viewHolder.contentTextView.setText(Util.fromHtml(msg.content));
+                if (TextUtils.isEmpty(msg.content))
+                {
+                    viewHolder.mContentView.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    viewHolder.mContentView.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        return convertView;
+    }
+    
+    class ViewHolder
+    {
+        ImageView imageView;
+        
+        /**
+         * 消息标题
+         */
+        TextView titleTextView;
+        
+        /**
+         * 消息日期
+         */
+        TextView dateTextView;
+        
+        /**
+        * 消息内容
+        */
+        TextView contentTextView;
+        
+        View mContentView;
+    }
+}

@@ -1,0 +1,261 @@
+package com.xweisoft.wx.family.ui.message.adpter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.WXApplication;
+import com.xweisoft.wx.family.logic.model.ChildrenItem;
+import com.xweisoft.wx.family.logic.model.MessageItem;
+import com.xweisoft.wx.family.ui.adapter.ListViewAdapter;
+import com.xweisoft.wx.family.ui.contact.ContactInfoActivity;
+import com.xweisoft.wx.family.util.LoginUtil;
+import com.xweisoft.wx.family.util.Util;
+import com.xweisoft.wx.family.widget.AsyncImage;
+import com.xweisoft.wx.family.widget.BaseViewHolder;
+
+/**
+ * <一句话功能简述>
+ * 发消息聊天
+ * <功能详细描述>
+ * @author  houfangfang
+ * @version  [版本号, 2015-5-11]
+ * @see  [相关类/方法]
+ * @since  [产品/模块版本]
+ */
+public class MessageChatListAdapter extends ListViewAdapter<MessageItem>
+{
+    
+    public MessageChatListAdapter(Context context)
+    {
+        super(context);
+    }
+    
+    @Override
+    public View getView(final int position, View contentView, ViewGroup arg2)
+    {
+        ViewHolder holder = null;
+        if (null == contentView)
+        {
+            holder = new ViewHolder();
+            contentView = mInflater.inflate(R.layout.wx_message_chat_list_item,
+                    null);
+            //别人布局
+            holder.otherLayout = contentView.findViewById(R.id.message_chat_list_item_other_layout);
+            holder.otherHeadImageView = (ImageView) contentView.findViewById(R.id.message_chat_list_item_other_head_imageview);
+            
+            holder.otherTextLayout = contentView.findViewById(R.id.message_chat_list_item_other_text_layout);
+            holder.otherImageLayout = contentView.findViewById(R.id.message_chat_list_item_other_image_layout);
+            holder.otherTextView = (TextView) contentView.findViewById(R.id.message_chat_list_item_other_textview);
+            holder.otherImageView = (AsyncImage) contentView.findViewById(R.id.message_chat_list_item_other_image);
+            
+            //自己布局
+            holder.myLayout = contentView.findViewById(R.id.message_chat_list_item_my_layout);
+            holder.myHeadImageView = (ImageView) contentView.findViewById(R.id.message_chat_list_item_my_head_imageview);
+            
+            holder.myTextLayout = contentView.findViewById(R.id.message_chat_list_item_my_text_layout);
+            holder.myImageLayout = contentView.findViewById(R.id.message_chat_list_item_my_image_layout);
+            
+            holder.myTextView = (TextView) contentView.findViewById(R.id.message_chat_list_item_my_textview);
+            holder.myImageView = (AsyncImage) contentView.findViewById(R.id.message_chat_list_item_my_image);
+            contentView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewHolder) contentView.getTag();
+        }
+        if (null == mList || null == mList.get(position))
+        {
+            return contentView;
+        }
+        MessageItem item = mList.get(position);
+        if (item != null)
+        {
+            holder.otherLayout.setVisibility(View.GONE);
+            holder.myLayout.setVisibility(View.GONE);
+            
+            holder.myTextLayout.setVisibility(View.GONE);
+            holder.myImageLayout.setVisibility(View.GONE);
+            
+            holder.otherImageLayout.setVisibility(View.GONE);
+            holder.otherTextLayout.setVisibility(View.GONE);
+            
+            if ("1".equals(item.isFrom))
+            {
+                holder.myLayout.setVisibility(View.VISIBLE);
+                if (null != WXApplication.getInstance().loginUserItem)
+                {
+                    ChildrenItem childrenItem = WXApplication.getInstance().loginUserItem.selectedItem;
+                    if (null != childrenItem)
+                    {
+                        ImageLoader.getInstance()
+                                .displayImage(childrenItem.portraitPath,
+                                        holder.myHeadImageView,
+                                        WXApplication.getInstance().optionsCircle);
+                    }
+                }
+                if ("1".equals(item.messageBodyType))
+                {
+                    holder.myTextLayout.setVisibility(View.VISIBLE);
+                    holder.myTextView.setText(Util.checkNull(item.text));
+                }
+                else if ("4".equals(item.messageBodyType))
+                {
+                    holder.myImageLayout.setVisibility(View.VISIBLE);
+                    //                    ImageLoader.getInstance().displayImage(item.text,
+                    //                            holder.myImageView,
+                    //                            WXApplication.getInstance().options);
+                    holder.myImageView.loadImage(item);
+                }
+            }
+            else if ("0".equals(item.isFrom))
+            {
+                holder.otherLayout.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(item.userHeader,
+                        holder.otherHeadImageView,
+                        WXApplication.getInstance().optionsCircle);
+                
+                if ("1".equals(item.messageBodyType))
+                {
+                    holder.otherTextLayout.setVisibility(View.VISIBLE);
+                    holder.otherTextView.setText(Util.checkNull(item.text));
+                }
+                else if ("4".equals(item.messageBodyType))
+                {
+                    holder.otherImageLayout.setVisibility(View.VISIBLE);
+                    //                    ImageLoader.getInstance().displayImage(item.text,
+                    //                            holder.otherImageView,
+                    //                            WXApplication.getInstance().options);
+                    holder.otherImageView.loadImage(item);
+                }
+            }
+            holder.otherHeadImageView.setTag(item);
+            holder.otherHeadImageView.setOnClickListener(new OnClickListener()
+            {
+                
+                @Override
+                public void onClick(View v)
+                {
+                    MessageItem item = (MessageItem) v.getTag();
+                    Intent intent = new Intent(mContext,
+                            ContactInfoActivity.class);
+                    intent.putExtra("userId", item.userId);
+                    intent.putExtra("student", item.from);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+        holder.myHeadImageView.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(mContext, ContactInfoActivity.class);
+                intent.putExtra("userId", LoginUtil.getUserId(mContext));
+                intent.putExtra("studentId", LoginUtil.getStudentId(mContext));
+                mContext.startActivity(intent);
+            }
+        });
+        holder.myImageLayout.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View v)
+            {
+                
+            }
+        });
+        holder.otherImageLayout.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View v)
+            {
+                
+            }
+        });
+        return contentView;
+    }
+    
+    /**
+     * 组件复用类
+     * <一句话功能简述>
+     * <功能详细描述>
+     * 
+     * @author  poorgod
+     * @version  [版本号, 2015-7-21]
+     * @see  [相关类/方法]
+     * @since  [产品/模块版本]
+     */
+    private class ViewHolder extends BaseViewHolder
+    {
+        /**
+         * 对方 消息布局
+         */
+        public View otherLayout;
+        
+        /**
+         * 对方 文本布局
+         */
+        public View otherTextLayout;
+        
+        /**
+         * 对方 图片布局
+         */
+        public View otherImageLayout;
+        
+        /**
+         * 对方 头像
+         */
+        public ImageView otherHeadImageView;
+        
+        /**
+         * 对方 文本消息
+         */
+        public TextView otherTextView;
+        
+        /**
+         * 对方 图片消息
+         */
+        public AsyncImage otherImageView;
+        
+        /**
+         * 自己 消息布局
+         */
+        public View myLayout;
+        
+        /**
+         * 自己 文本布局
+         */
+        public View myTextLayout;
+        
+        /**
+         * 自己 图片布局
+         */
+        public View myImageLayout;
+        
+        /**
+         * 自己 头像
+         */
+        public ImageView myHeadImageView;
+        
+        /**
+         * 自己 文本消息
+         */
+        public TextView myTextView;
+        
+        /**
+         * 自己 图片消息
+         */
+        public AsyncImage myImageView;
+        
+    }
+    
+}

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xweisoft.wx.family"
+    android:versionCode="1"
+    android:versionName="1.0.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 使用网络功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name=".WXApplication"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:screenOrientation="portrait"
+        android:theme="@style/Theme.noContentOverlayStyles" >
+        <activity
+            android:name=".ui.load.LoadActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 引导界面 -->
+        <activity
+            android:name=".ui.load.GuideViewActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 主界面 -->
+        <activity
+            android:name=".ui.WXMainFragmentActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 通知列表 -->
+        <activity
+            android:name=".ui.message.NotificationListActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 通讯录 -->
+        <activity
+            android:name=".ui.contact.ContactActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 成绩查看 -->
+        <activity
+            android:name=".ui.grade.GradeActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".ui.grade.newview.NewCommentScoreAndMess"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 忘记密码 -->
+        <activity
+            android:name=".ui.pc.ForgetPasswordActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 通讯录搜索 -->
+        <activity
+            android:name=".ui.contact.ContactSearchActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+
+        <!-- 用户登录 -->
+        <activity
+            android:name=".ui.pc.LoginActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 用户注册 -->
+        <activity
+            android:name=".ui.pc.RegisterActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 个人中心 -->
+        <activity
+            android:name=".ui.pc.ChooseChildrenActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.pc.UpdateIconActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 个人资料 -->
+        <activity
+            android:name=".ui.pc.PersonalInfoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 修改昵称 -->
+        <activity
+            android:name=".ui.pc.ModifyUserNameActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 绑定手机 -->
+        <activity
+            android:name=".ui.pc.BindTelphoneActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 关于我们 -->
+        <activity
+            android:name=".ui.setting.AboutUsActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 修改密码 -->
+        <activity
+            android:name=".ui.setting.ModifyPasswordActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 意见反馈 -->
+        <activity
+            android:name=".ui.setting.FeedbackActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 通知消息 -->
+        <activity
+            android:name=".ui.setting.MessageActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 通知消息详情 -->
+        <activity
+            android:name=".ui.setting.MessageInfoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 帮助界面 -->
+        <activity
+            android:name=".ui.help.HelpActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <!-- 设置 -->
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+
+        <!-- 消息设置个人中心 -->
+        <activity
+            android:name=".ui.setting.SetMessageActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".ui.pc.MessagecllectionActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
+        </activity>
+
+        <!-- 图片预览 -->
+        <activity
+            android:name=".ui.photo.CompressPhotoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- OAuth Version 2. 使用  WebView 辅助进行ImplicitGrant方式授权必须 -->
+        <activity
+            android:name="com.tencent.weibo.webview.OAuthV2AuthorizeWebView"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1101817617" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.pc.ControlRoleActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.ApplyActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.ApplySelectActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.ApplyStudentInfoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.message.ApplyParentInfoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.message.ApplySuccessActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.WorkActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.WorkDetailActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.NotificationDetailActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.message.ChatMessageActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.contact.ContactInfoActivity"
+            android:configChanges="locale|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!-- 查看历史消息 -->
+        <activity
+            android:name=".ui.grade.view.HistoryCommentActicvity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.grade.newadapter.MDalogActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Translucent_NoTitle" />
+        <activity
+            android:name=".ui.grade.view.HistoryCommentMessActicvity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <!-- 查看历史消息 -->
+        <activity
+            android:name=".ui.grade.view.HistoryCommentScoreActicvity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <!-- 成绩显示 HistoryScoreGroupActicvity -->
+        <activity
+            android:name=".ui.grade.view.HistoryScoreGroupActicvity"
+            android:configChanges="locale|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <!-- 友盟统计 Key -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="541ebbf2fd98c518de057459" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+
+        <service
+            android:name="com.xweisoft.wx.family.mina.service.NotificationService"
+            android:enabled="true"
+            android:priority="1000" >
+            <intent-filter>
+                <action android:name="com.xweisoft.wx.family.mina.notification.service" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/common_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:gravity="center"
+        android:text="提示"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/common_dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_white_bg"
+        android:gravity="center"
+        android:minHeight="80dip"
+        android:padding="10dip"
+        android:text="是否拨打服务电话"
+        android:textColor="@color/black_color"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/common_dialog_cancel"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/ysh_blue_0ed2e8_color"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/common_gray_bg" />
+
+        <TextView
+            android:id="@+id/common_dialog_confirm"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/ysh_blue_0ed2e8_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

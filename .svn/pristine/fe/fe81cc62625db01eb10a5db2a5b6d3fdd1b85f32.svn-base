@@ -1,0 +1,158 @@
+package com.xweisoft.wx.family.ui.contact.adapter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xweisoft.wx.family.R;
+import com.xweisoft.wx.family.WXApplication;
+import com.xweisoft.wx.family.logic.model.response.ContactClassItem;
+import com.xweisoft.wx.family.ui.adapter.ListViewAdapter;
+import com.xweisoft.wx.family.util.Util;
+
+public class ContactsAddListAdapter extends ListViewAdapter<ContactClassItem>
+{
+    
+    private Map<Integer, String> mCheckedMap = new HashMap<Integer, String>();
+    
+    public ContactsAddListAdapter(Context context)
+    {
+        super(context);
+    }
+    
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent)
+    {
+        ViewHolder holder = null;
+        if (null == convertView)
+        {
+            holder = new ViewHolder();
+            convertView = mInflater.inflate(R.layout.contacts_add_listview_item,
+                    null);
+            holder.mImageView = (ImageView) convertView.findViewById(R.id.contacts_add_item_header);
+            holder.mNameView = (TextView) convertView.findViewById(R.id.contacts_add_item_name);
+            holder.mTeacherView = (TextView) convertView.findViewById(R.id.contacts_add_item_teacher);
+            holder.mCheckBox = (CheckBox) convertView.findViewById(R.id.contacts_add_item_checkbox);
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        if (null == mList)
+        {
+            return convertView;
+        }
+        //        holder.mCheckBox.setChecked(isAll);
+        final ContactClassItem item = mList.get(position);
+        if (null != item)
+        {
+            if (null != mCheckedMap.get(position))
+            {
+                holder.mCheckBox.setChecked(true);
+            }
+            else
+            {
+                holder.mCheckBox.setChecked(false);
+            }
+            holder.mNameView.setText(Util.checkNull(item.teacherName));
+            holder.mTeacherView.setText(Util.checkNull(item.teacherRoleName));
+            ImageLoader.getInstance().displayImage(item.portraitPath,
+                    holder.mImageView,
+                    WXApplication.getInstance().optionsCircle);
+            holder.mCheckBox.setOnClickListener(new OnClickListener()
+            {
+                
+                @Override
+                public void onClick(View v)
+                {
+                    boolean isChecked = ((CheckBox) v).isChecked();
+                    if (isChecked)
+                    {
+                        mCheckedMap.put(position, item.teacherId);
+                    }
+                    else
+                    {
+                        mCheckedMap.put(position, null);
+                    }
+                }
+            });
+            holder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener()
+            {
+                
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,
+                        boolean isChecked)
+                {
+                }
+            });
+        }
+        return convertView;
+    }
+    
+    public void setSelectAll(boolean isAll)
+    {
+        if (null == mList)
+        {
+            return;
+        }
+        for (int i = 0; i < mList.size(); i++)
+        {
+            if (isAll)
+            {
+                ContactClassItem item = mList.get(i);
+                if (null != item)
+                {
+                    mCheckedMap.put(i, item.teacherId);
+                }
+            }
+            else
+            {
+                mCheckedMap.put(i, null);
+            }
+        }
+        notifyDataSetChanged();
+    }
+    
+    public String getCheckedIds()
+    {
+        StringBuffer buffer = new StringBuffer();
+        for (String str : mCheckedMap.values())
+        {
+            if (!TextUtils.isEmpty(str))
+            {
+                buffer.append(str);
+                buffer.append(",");
+            }
+        }
+        if (buffer.toString().endsWith(","))
+        {
+            buffer.deleteCharAt(buffer.length() - 1);
+        }
+        return buffer.toString();
+    }
+    
+    private class ViewHolder
+    {
+        
+        private ImageView mImageView;
+        
+        private TextView mNameView;
+        
+        private TextView mTeacherView;
+        
+        private CheckBox mCheckBox;
+        
+    }
+}

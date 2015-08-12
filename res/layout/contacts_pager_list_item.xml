@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="@drawable/common_gray_bg" />
+
+        <TextView
+            android:id="@+id/contact_pager_list_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:text="老师"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dip"
+            android:background="@drawable/common_divider_line" />
+
+        <com.xweisoft.wx.family.widget.MyListView
+            android:id="@+id/contact_pager_list_item_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent_color"
+            android:cacheColorHint="@color/transparent_color"
+            android:divider="@drawable/ysh_listview_background_dividle"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/wx_transparent"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+</LinearLayout>
