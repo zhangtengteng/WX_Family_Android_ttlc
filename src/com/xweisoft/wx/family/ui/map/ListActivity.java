@@ -13,19 +13,16 @@ public class ListActivity extends BaseActivity{
 	}
 	@Override
 	public void initViews() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void bindListener() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public int getActivityLayout() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
