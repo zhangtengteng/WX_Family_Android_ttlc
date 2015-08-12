@@ -17,6 +17,7 @@ import android.content.Context;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -152,7 +153,8 @@ public class WXApplication extends Application
     {
         super.onCreate();
         instance = this;
-        
+        //百度map
+        SDKInitializer.initialize(getApplicationContext());
         systemInfo = new Hashtable<String, String>();
         
         // 设置异常处理实例

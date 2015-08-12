@@ -69,7 +69,7 @@ public class MapFragment extends BaseFragment implements OnClickListener {
 		pager = (ViewPager) getActivity().findViewById(R.id.vp_myorder);
 		final ArrayList<View> list = new ArrayList<View>();
 
-		Intent intent = new Intent(getActivity(), MapActivity.class);
+		Intent intent = new Intent(getActivity(), LocationDemo.class);
 		list.add(getView("0", intent));
 		Intent intent2 = new Intent(getActivity(), ListActivity.class);
 		list.add(getView("1", intent2));
