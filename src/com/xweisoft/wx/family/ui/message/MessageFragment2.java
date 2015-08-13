@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.xweisoft.wx.family.R;
 import com.xweisoft.wx.family.ui.BaseFragment;
-import com.xweisoft.wx.family.ui.pc.adapter.ListAdapter;
+import com.xweisoft.wx.family.ui.message.adpter.MessageListAdapter;
 
 /**
  * 个人中心 <一句话功能简述> <功能详细描述>
@@ -22,7 +22,7 @@ import com.xweisoft.wx.family.ui.pc.adapter.ListAdapter;
 public class MessageFragment2 extends BaseFragment implements OnClickListener {
 	
 	private ListView listview;
-	private ListAdapter listAdapter;
+	private MessageListAdapter listAdapter;
 
 	@Override
 	public void onClick(View arg0) {
@@ -32,7 +32,7 @@ public class MessageFragment2 extends BaseFragment implements OnClickListener {
 	@Override
 	public void initViews() {
 		listview = (ListView) getActivity().findViewById(R.id.listview1);
-		listAdapter = new ListAdapter(getActivity());
+		listAdapter = new MessageListAdapter(getActivity());
 		listview.setAdapter(listAdapter);
 	}
 

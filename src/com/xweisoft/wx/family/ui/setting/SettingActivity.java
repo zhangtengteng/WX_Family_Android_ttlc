@@ -143,7 +143,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener
     @Override
     public void initViews()
     {
-        CommonTitleUtil.initCommonTitle(this,
+       CommonTitleUtil.initCommonTitle(this,
                 getString(R.string.ysh_setting),
                 null,
                 false,

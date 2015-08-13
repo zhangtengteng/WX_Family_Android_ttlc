@@ -70,7 +70,6 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
-
     <style name="MediaController_Text">
         <item name="android:textColor">#ffffffff</item>
         <item name="android:textSize">14sp</item>
@@ -108,14 +107,13 @@
         <!-- 模糊 -->
     </style>
 
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-    </style>
+    <style name="AppBaseTheme" parent="android:Theme.Light"></style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
+
     <style name="base_dialog" parent="@android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -129,12 +127,12 @@
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
-    
+
     <style name="bottom_dialog_style">
         <item name="android:windowEnterAnimation">@anim/bottom_dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/bottom_dialog_out_anim</item>
     </style>
-    
+
     <style name="left_popuwindow_style">
         <item name="android:windowEnterAnimation">@anim/anim_left_in</item>
         <item name="android:windowExitAnimation">@anim/anim_left_out</item>
@@ -143,13 +141,19 @@
     <style name="bottom_dialog_window_style" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/wx_transparent</item>
     </style>
-    
-        <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
+
+    <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">#00000000</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-    
+
+    <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/start_light</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
+
 </resources>
