@@ -5,11 +5,11 @@
     android:background="@drawable/common_gray_bg"
     android:orientation="vertical" >
 
-    <include layout="@layout/wx_common_title" />
+    <include layout="@layout/layout_title" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fadingEdge="none"
         android:orientation="vertical"
         android:scrollbars="none" >
@@ -226,6 +226,7 @@
                 android:textColor="@color/white_color"
                 android:textSize="16sp" />
         </LinearLayout>
+        
     </ScrollView>
 
 </LinearLayout>

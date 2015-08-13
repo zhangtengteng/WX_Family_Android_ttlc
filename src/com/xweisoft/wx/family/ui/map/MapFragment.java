@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.xweisoft.wx.family.R;
@@ -32,19 +33,19 @@ public class MapFragment extends BaseFragment implements OnClickListener {
 	LocalActivityManager manager = null;
 	private LinearLayout llMap;
 	private LinearLayout llList;
-
+	private ImageView ivSearch;
 	@Override
 	public void initViews() {
 		llMap = (LinearLayout) getActivity().findViewById(R.id.ll_map_map);
 		llList = (LinearLayout) getActivity().findViewById(R.id.ll_map_list);
-		getActivity().findViewById(R.id.common_title_right_imageview)
-				.setOnClickListener(this);
+		ivSearch = (ImageView) getActivity().findViewById(R.id.common_title_right_imageview);
 	}
 
 	@Override
 	public void bindListener() {
 		llMap.setOnClickListener(this);
 		llList.setOnClickListener(this);
+		ivSearch.setOnClickListener(this);
 	}
 
 	@Override

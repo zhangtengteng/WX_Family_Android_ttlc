@@ -10,13 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.xweisoft.wx.family.R;
 import com.xweisoft.wx.family.logic.model.ContactItem;
 import com.xweisoft.wx.family.service.database.ContactsDBHelper;
 import com.xweisoft.wx.family.ui.BaseActivity;
 import com.xweisoft.wx.family.ui.contact.adapter.ContactsListAdapter;
-import com.xweisoft.wx.family.util.CommonTitleUtil;
 import com.xweisoft.wx.family.util.ListUtil;
 import com.xweisoft.wx.family.util.LoginUtil;
 import com.xweisoft.wx.family.widget.swipe.SwipeRefreshListView;
@@ -59,6 +59,8 @@ public class ContactSearchActivity extends BaseActivity
     private ContactsDBHelper mDbHelper;
     
     private String isFriend;
+
+	private TextView tvTop;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,11 +74,8 @@ public class ContactSearchActivity extends BaseActivity
     @Override
     public void initViews()
     {
-        CommonTitleUtil.initCommonTitle(this,
-                "搜索",
-                R.drawable.wx_contact_title_search,
-                false,
-                true);
+       tvTop = (TextView) findViewById(R.id.generalTitleLabel);
+       tvTop.setText(R.string.ysh_search);
         mListView = (SwipeRefreshListView) findViewById(R.id.contact_search_listview);
         mListView.setPullLoadEnable(false);
         mListView.setPullRefreshEnable(false);

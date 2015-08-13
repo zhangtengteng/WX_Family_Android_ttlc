@@ -25,7 +25,7 @@
             android:background="@drawable/wx_contact_search_edit_bg"
             android:drawablePadding="5dip"
             android:drawableRight="@drawable/wx_contact_search_icon"
-            android:hint="请输入学生的或者老师的姓名"
+            android:hint="请输入教练的名称"
             android:padding="5dip"
             android:singleLine="true"
             android:textColor="@color/wx_black_858585"
