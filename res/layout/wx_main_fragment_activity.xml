@@ -25,6 +25,7 @@
             android:clickable="true" >
 
             <TextView
+                android:textColor="@color/tab_font_selector"
                 android:id="@+id/main_navi_message_text"
                 style="@style/main_navi_txt_style"
                 android:text="@string/wx_tab_message" />
@@ -33,7 +34,7 @@
                 style="@style/main_navi_img_style"
                 android:layout_above="@id/main_navi_message_text"
                 android:contentDescription="@null"
-                android:src="@drawable/xiaoxi" />
+                android:src="@drawable/wx_tab_contacts_selector" />
 
             <ImageView
                 android:id="@+id/main_navi_message_unread"
@@ -54,6 +55,7 @@
             android:clickable="true" >
 
             <TextView
+                android:textColor="@color/tab_font_selector"
                 android:id="@+id/main_navi_contacts_text"
                 style="@style/main_navi_txt_style"
                 android:text="@string/wx_tab_contacts" />
@@ -93,6 +95,7 @@
             android:clickable="true" >
 
             <TextView
+                android:textColor="@color/tab_font_selector"
                 android:id="@+id/main_navi_person_text"
                 style="@style/main_navi_txt_style"
                 android:text="@string/wx_tab_person" />

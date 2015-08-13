@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.xweisoft.wx.family.R;
 import com.xweisoft.wx.family.WXApplication;
@@ -47,6 +48,8 @@ public class SetMessageActivity extends BaseActivity implements OnClickListener
     
     private Button chage;
     
+    private TextView tvTop;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,14 +62,18 @@ public class SetMessageActivity extends BaseActivity implements OnClickListener
     @Override
     public void initViews()
     {
-        CommonTitleUtil.initCommonTitle(this,
+       /* CommonTitleUtil.initCommonTitle(this,
                 getString(R.string.ysh_setting),
                 null,
                 false,
-                true);
+                true);*/
         
-        chage=(Button) findViewById(R.id.common_qiehuan);
-        chage.setVisibility(View.GONE);
+//        chage=(Button) findViewById(R.id.common_qiehuan);
+//        chage.setVisibility(View.GONE);
+    	
+    	
+    	tvTop = (TextView) findViewById(R.id.generalTitleLabel);
+    	tvTop.setText(R.string.app_set);
         receiveNoticeSlipBt = (SettingSlipButton) findViewById(R.id.set_message_receive_notice_slip_button);
         showInfoSlipBt = (SettingSlipButton) findViewById(R.id.set_message_show_info_slip_button);
         voiceSlipBt = (SettingSlipButton) findViewById(R.id.set_message_voice_slip_button);
