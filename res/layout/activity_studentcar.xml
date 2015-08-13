@@ -163,15 +163,17 @@
         </RelativeLayout> 
         
         <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@color/blue"
-        android:gravity="center"
-        android:text="提交信息"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="提交信息"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
     </LinearLayout>
 
 </LinearLayout>

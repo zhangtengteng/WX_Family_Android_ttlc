@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import com.xweisoft.wx.family.R;
 import com.xweisoft.wx.family.ui.BaseFragment;
+import com.xweisoft.wx.family.ui.contact.ContactSearchActivity;
+import com.xweisoft.wx.family.ui.contact.ContactsFragmet;
 import com.xweisoft.wx.family.ui.map.adapter.MyPagerAdapter;
 import com.xweisoft.wx.family.util.LogX;
 
@@ -31,12 +33,12 @@ public class MapFragment extends BaseFragment implements OnClickListener {
 	private LinearLayout llMap;
 	private LinearLayout llList;
 
-
-
 	@Override
 	public void initViews() {
 		llMap = (LinearLayout) getActivity().findViewById(R.id.ll_map_map);
 		llList = (LinearLayout) getActivity().findViewById(R.id.ll_map_list);
+		getActivity().findViewById(R.id.common_title_right_imageview)
+				.setOnClickListener(this);
 	}
 
 	@Override
@@ -112,7 +114,7 @@ public class MapFragment extends BaseFragment implements OnClickListener {
 	private View getView(String id, Intent intent) {
 		return manager.startActivity(id, intent).getDecorView();
 	}
-	
+
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -125,6 +127,10 @@ public class MapFragment extends BaseFragment implements OnClickListener {
 		case R.id.ll_map_list:
 			pager.setCurrentItem(1);
 			System.out.println("ll_map_list is onClick ~");
+			break;
+		// search
+		case R.id.common_title_right_imageview:
+			startActivity(new Intent(getActivity(),ContactSearchActivity.class));
 			break;
 		default:
 			break;

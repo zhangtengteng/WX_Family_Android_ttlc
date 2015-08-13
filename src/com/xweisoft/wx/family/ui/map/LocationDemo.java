@@ -2,11 +2,13 @@ package com.xweisoft.wx.family.ui.map;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -15,6 +17,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -29,7 +32,7 @@ import com.xweisoft.wx.family.R;
  * 
  */
 public class LocationDemo extends Activity {
-
+	BDLocation currentLocation;
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -48,6 +51,28 @@ public class LocationDemo extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_fragment_map_activity);
+		findViewById(R.id.ib_location).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						Toast.makeText(getApplicationContext(), "正在定位", 2000)
+								.show();
+						// 设定中心点坐标
+						LatLng cenpt = new LatLng(
+								currentLocation.getLatitude(), currentLocation
+										.getLongitude());
+						// 定义地图状态
+						MapStatus mMapStatus = new MapStatus.Builder()
+								.target(cenpt).zoom(14).build();
+						// 定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+						MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
+								.newMapStatus(mMapStatus);
+						// 改变地图状态
+						mBaiduMap.setMapStatus(mMapStatusUpdate);
+
+					}
+				});
 		requestLocButton = (Button) findViewById(R.id.button1);
 		mCurrentMode = LocationMode.NORMAL;
 		requestLocButton.setText("普通");
@@ -127,6 +152,7 @@ public class LocationDemo extends Activity {
 
 		@Override
 		public void onReceiveLocation(BDLocation location) {
+			currentLocation = location;
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mMapView == null)
 				return;
