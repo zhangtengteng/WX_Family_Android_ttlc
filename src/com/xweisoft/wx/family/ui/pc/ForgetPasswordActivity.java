@@ -172,6 +172,8 @@ public class ForgetPasswordActivity extends BaseActivity implements
             showToast(errMsg);
         }
     };
+
+	private TextView tvTop;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -185,11 +187,14 @@ public class ForgetPasswordActivity extends BaseActivity implements
     @Override
     public void initViews()
     {
-        CommonTitleUtil.initCommonTitle(this,
+   /*     CommonTitleUtil.initCommonTitle(this,
                 getString(R.string.ysh_forget_password2),
                 null,
                 false,
-                true);
+                true);*/
+    	
+    	tvTop = (TextView) findViewById(R.id.generalTitleLabel);
+    	tvTop.setText(R.string.ysh_forget_password2);
         telphoneEditText = (EditText) findViewById(R.id.telphone_edittext);
         codeEditText = (EditText) findViewById(R.id.code_edittext);
         passwordEditText = (EditText) findViewById(R.id.password_edittext);

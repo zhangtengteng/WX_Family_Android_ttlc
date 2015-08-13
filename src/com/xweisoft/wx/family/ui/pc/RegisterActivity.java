@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.xweisoft.wx.family.R;
 import com.xweisoft.wx.family.logic.global.HttpAddressProperties;
 import com.xweisoft.wx.family.logic.model.response.CommonResp;
 import com.xweisoft.wx.family.ui.BaseActivity;
-import com.xweisoft.wx.family.util.CommonTitleUtil;
 import com.xweisoft.wx.family.util.HttpRequestUtil;
 import com.xweisoft.wx.family.util.ProgressUtil;
 import com.xweisoft.wx.family.util.SecurityUtil;
@@ -110,6 +110,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener
         }
         
     };
+
+	private TextView tvTop;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -123,13 +125,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener
     @Override
     public void initViews()
     {
-        CommonTitleUtil.initCommonTitle(this,
-                getResources().getString(R.string.ysh_register),
-                null,
-                false,
-                true);
+		tvTop = (TextView) findViewById(R.id.generalTitleLabel);
+		tvTop.setText(R.string.login_regist);
+    	
         //手机验证码定时器
-        
         telphoneEditText = (EditText) findViewById(R.id.register_telphone_edittext);
         passwordEditText = (EditText) findViewById(R.id.register_password_edittext);
         //        surePasswordEditText = (EditText) findViewById(R.id.register_sure_password_edittext);

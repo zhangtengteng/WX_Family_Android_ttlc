@@ -491,7 +491,7 @@
     <string name="ysh_recommend">推荐</string>
     <string name="ysh_register_protocol">孙悟空用户注册协议</string>
     <string name="ysh_register_protocol_tips">我已阅读并同意</string>
-    <string name="ysh_telphone_hint2">输入帐号</string>
+    <string name="ysh_telphone_hint2">输入手机号</string>
     <string name="ysh_oldpowd_hint2">输入旧密码</string>
     <string name="ysh_sms_telphone_hint">输入好友手机号</string>
     <string name="ysh_register_password_hint">6-16位字符</string>

@@ -83,6 +83,7 @@
             <include layout="@layout/layout_line_black" />
 
             <LinearLayout
+                android:id="@+id/register_submit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
